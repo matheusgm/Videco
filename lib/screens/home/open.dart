@@ -6,81 +6,87 @@ class Opening extends StatelessWidget {
     return Scaffold(
       appBar: openAppBar(),
       body: Container(
-        padding: EdgeInsets.only(top: 60, left: 40, right: 40),
         color: Colors.grey[400],
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              width: 128,
-              height: 128,
-              child:  Image.asset('Assets/Light.jpg')
+            Padding(
+              padding: EdgeInsets.only(top: 60, left: 30, right: 30),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 128,
+                    height: 128,
+                    child:  Image.asset('Assets/Light.jpg')
 
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            textFormWidget("E-mail",TextInputType.emailAddress),
-            SizedBox(
-              height: 10,
-            ),
-            textFormWidget("Senha",TextInputType.text, obscureText:true),
-            
-            containerButton("Recuperar Senha",TextAlign.right,(){},alignment: Alignment.centerRight),
-
-            SizedBox(
-              height: 40,
-            ),
-            Container(
-              height: 60,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.3, 1],
-                  colors: [
-                    Colors.lightGreen[800],
-                    Colors.lightGreen[600],
-                  ],
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      Container(
-                        child: SizedBox(
-                          child: Image.asset("Assets/Hardcore.jpg"),
-                          height: 28,
-                          width: 28,
-                        ),
-                      )
-                    ],
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/profile");
-                  },
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            containerButton("Sign-up",TextAlign.center,(){Navigator.pushNamed(context, "/character");}),
-            
+                  SizedBox(
+                    height: 20,
+                  ),
+                  textFormWidget("E-mail",TextInputType.emailAddress),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  textFormWidget("Senha",TextInputType.text, obscureText:true),
+                  
+                  containerButton("Recuperar Senha",TextAlign.right,(){Navigator.pushNamed(context, "/wrap");},alignment: Alignment.centerRight),
+
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    height: 60,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.3, 1],
+                        colors: [
+                          Colors.lightGreen[800],
+                          Colors.lightGreen[600],
+                        ],
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: SizedBox.expand(
+                      child: FlatButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Login",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Container(
+                              child: SizedBox(
+                                child: Image.asset("Assets/Hardcore.jpg"),
+                                height: 28,
+                                width: 28,
+                              ),
+                            )
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/profile");
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  containerButton("Sign-up",TextAlign.center,(){Navigator.pushNamed(context, "/character");}),
+                  
+                ]
+              ,),
+            )
           ],
         ),
       ),
