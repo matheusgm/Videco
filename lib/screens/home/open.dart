@@ -16,7 +16,11 @@ class Opening extends StatelessWidget {
                   SizedBox(
                     width: 128,
                     height: 128,
-                    child:  Image.asset('Assets/Light.jpg')
+                    child:  CircleAvatar(
+                      backgroundImage: AssetImage('Assets/Light.jpg'),
+                      radius: 50.0,
+                    ),
+                    //Image.asset('Assets/Light.jpg')
 
                   ),
                   SizedBox(
