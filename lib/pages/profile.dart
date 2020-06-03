@@ -19,6 +19,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.lightGreen,
         elevation: 0.0,
       ),
+      drawer: drawerWidget(),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -106,4 +107,43 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
+  Widget drawerWidget(){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.lightGreen[700],
+            ),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.message),
+            title: Text('Messages'),
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

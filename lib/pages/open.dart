@@ -40,7 +40,7 @@ class Opening extends StatelessWidget {
               ),
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/profile');
                 },
                 child: Text('Log in',
                   style: TextStyle(
