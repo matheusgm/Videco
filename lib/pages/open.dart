@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Opening extends StatelessWidget {
+class Opening extends StatefulWidget {
+  @override
+  _OpeningState createState() => _OpeningState();
+}
+
+class _OpeningState extends State<Opening> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Videco',
-        style: TextStyle(
-          fontSize: 24.0,
-          fontFamily: 'Lato',
-          letterSpacing: 2.0,
-        ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.lightGreen[700],
-        automaticallyImplyLeading: false,
-      ),
+      appBar: openAppBar(),
       backgroundColor: Colors.grey[400],
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,37 +19,45 @@ class Opening extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              RaisedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/character');
-                },
-                child: Text('Sign in',
-                  style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 30.0,
-                    letterSpacing: 2.0,
-                    color: Colors.lightGreen[700]
-                  ),
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
-                },
-                child: Text('Log in',
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 30.0,
-                      letterSpacing: 2.0,
-                      color: Colors.lightGreen[700]
-                  ),
-                ),
-              )
+              buttonWidget('Sign in','/character'),
+              buttonWidget('Log in','/profile'),
             ],
           ),
         ],
       ),
     );
   }
+
+  Widget openAppBar(){
+    return AppBar(
+      title: Text('Videco',
+      style: TextStyle(
+        fontSize: 24.0,
+        fontFamily: 'Lato',
+        letterSpacing: 2.0,
+      ),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.lightGreen[700],
+      automaticallyImplyLeading: false,
+    );
+  }
+
+  Widget buttonWidget(texto,rota){
+    return RaisedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, rota);
+      },
+      child: Text(texto,
+        style: TextStyle(
+          fontFamily: 'Lato',
+          fontSize: 25.0,
+          letterSpacing: 2.0,
+          color: Colors.lightGreen[700]
+        ),
+      ),
+    );
+  }
+
 }
 
