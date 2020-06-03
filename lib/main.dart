@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import './pages/profile.dart';
-import './pages/home.dart';
-import './pages/loading.dart';
-import './pages/Set_Character.dart';
-import './pages/open.dart';
+import 'screens/home/profile.dart';
+import 'screens/home/home.dart';
+import 'screens/home/loading.dart';
+import 'screens/home/Set_Character.dart';
+import 'screens/home/open.dart';
+import 'screens/wrapper.dart';
 
 
 void main() => runApp(MaterialApp(
@@ -14,6 +15,7 @@ void main() => runApp(MaterialApp(
     '/opening': (context) => Opening(),
     '/home': (context) => Home(),
     '/profile': (context) => Profile(),
+    '/wrap': (context) => Wrapper(),
   },
 ));
 
