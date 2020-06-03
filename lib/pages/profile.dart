@@ -125,24 +125,19 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.message),
-            title: Text('Messages'),
-          ),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
+          tileProfile('Messages', Icons.message, (){}),
+          tileProfile('Profile', Icons.account_circle, (){Navigator.pop(context);}),
+          tileProfile('Settings', Icons.settings,(){})
         ],
       ),
+    );
+  }
+
+  Widget tileProfile(title, icon, onClick){
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: onClick,
     );
   }
 
