@@ -19,6 +19,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.lightGreen,
         elevation: 0.0,
       ),
+      drawer: drawerWidget(),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -44,45 +45,17 @@ class _ProfileState extends State<Profile> {
               height: 60.0,
               color: Colors.grey[900],
             ),
-            Text(
-              'NAME',
-              style: TextStyle(
-                color: Colors.grey[750],
-                letterSpacing: 2.0,
-                fontFamily: 'Lato',
-              ),
-            ),
+            textProfile('NAME',Colors.grey[750],spacing:2.0,fontFamily:'Lato'),
+
             SizedBox(height: 10.0),
-            Text(
-              'Paulo Bessa',
-              style: TextStyle(
-                  color: Colors.green,
-                  letterSpacing: 2.0,
-                  fontFamily: 'Lato',
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
+            textProfile('Paulo Bessa',Colors.green,spacing:2.0,size: 28.0, fontFamily:'Lato'),
+
             SizedBox(height: 30.0),
-            Text(
-              'CURRENT VIDECO LEVEL',
-              style: TextStyle(
-                color: Colors.grey[750],
-                letterSpacing: 2.0,
-                fontFamily: 'Lato',
-              ),
-            ),
+            textProfile('CURRENT VIDECO LEVEL',Colors.grey[750],spacing:2.0,fontFamily:'Lato'),
+            
             SizedBox(height: 10.0),
-            Text(
-              '$videcolevel',
-              style: TextStyle(
-                  color: Colors.green,
-                  letterSpacing: 2.0,
-                  fontFamily: 'Lato',
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
+            textProfile('$videcolevel',Colors.green,spacing:2.0,size:28.0,fontFamily:'Lato'),
+            
             SizedBox(height: 30.0),
             Row(
               children: <Widget>[
@@ -91,19 +64,61 @@ class _ProfileState extends State<Profile> {
                     color: Colors.grey[600]
                 ),
                 SizedBox(width: 10.0,),
-                Text(
-                  'paulobessamonteiro@gmail.com',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 18.0,
-                    letterSpacing: 1.0,
-                  ),
-                ),
+                textProfile('paulobessamonteiro@gmail.com',Colors.grey[600],size:18.0,fontFamily:'Lato'),
+                
               ],
             ),
+            
           ],
         ),
       ),
     );
   }
+
+  Widget textProfile(texto, color, {spacing = 1.0, size = 14.0, fontFamily, FontWeight weight = FontWeight.normal}){
+    return Text(
+      texto,
+      style: TextStyle(
+        color: color,
+        letterSpacing: spacing,
+        fontSize: size,
+        fontWeight: weight,
+        fontFamily: fontFamily,
+      ),
+    );
+  }
+
+  Widget drawerWidget(){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.lightGreen[700],
+            ),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          tileProfile('Messages', Icons.message, (){}),
+          tileProfile('Profile', Icons.account_circle, (){Navigator.pop(context);}),
+          tileProfile('Settings', Icons.settings,(){})
+        ],
+      ),
+    );
+  }
+
+  Widget tileProfile(title, icon, onClick){
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: onClick,
+    );
+  }
+
 }
