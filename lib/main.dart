@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/pages/profile.dart';
-import 'package:flutterapp/pages/home.dart';
-import 'package:flutterapp/pages/loading.dart';
-import 'package:flutterapp/pages/Set_Character.dart';
-import 'package:flutterapp/pages/open.dart';
+import './pages/profile.dart';
+import './pages/home.dart';
+import './pages/loading.dart';
+import './pages/Set_Character.dart';
+import './pages/open.dart';
 
 
 void main() => runApp(MaterialApp(
