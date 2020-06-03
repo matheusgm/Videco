@@ -12,7 +12,7 @@ class _CadastroState extends State<Cadastro> {
     return Scaffold(
       appBar: _construirAppBar(),
       body: _construirBody(),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[300],
     );
   }
 
@@ -41,14 +41,16 @@ class _CadastroState extends State<Cadastro> {
               children: <Widget>[
 
                 _textInputHome("Nome","",Icons.person),
+                _textInputHome("Email","example@example.com",Icons.email),
+                _textInputHome("Senha","",Icons.lock,obscureText:true),
                 _textInputHome("CPF","000.000.000-00",Icons.format_list_numbered),
-                _textInputHome("RG","00.000.000-0",Icons.format_list_numbered),
                 _textInputHome("Data de Nascimento","00/00/0000",Icons.date_range),
-                _textInputHome("Número da Certidão de Nascimento","",Icons.format_list_numbered),
-                _textInputHome("Horário de Emissão","HH:mm",Icons.date_range),
-                _textInputHome("Data de Emissão","00/00/0000",Icons.date_range),
 
-                _buttonCadastro("Enviar Dados",() {})
+                SizedBox(
+                    height: 40,
+                ),
+
+                _buttonCadastro("Cadastrar",() {})
 
               ],
             ),
@@ -57,24 +59,56 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  Widget _textInputHome(label,hintText,icon){
+  Widget _textInputHome(label,hintText,icon,{obscureText=false}){
     return TextField(
             decoration: InputDecoration(
               labelText: label,
               hintText: hintText,
               icon: Icon(icon)
             ),
+            obscureText: obscureText,
+            cursorColor: Colors.lightGreen[700],
           );
   }
 
-  Widget _buttonCadastro(title,onPressed){
-    return RaisedButton(
-      onPressed: onPressed,
-      child: Text(
-        title,
-        style: TextStyle(fontSize: 12)
-      ),
-    );
+  Widget _buttonCadastro(texto,onClick){
+    return  Container(
+            height: 60,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.3, 1],
+                colors: [
+                  Colors.lightGreen[800],
+                  Colors.lightGreen[600],
+                ],
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              ),
+            ),
+            child: SizedBox.expand(
+              child: FlatButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      texto,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                onPressed: onClick,
+              ),
+            ),
+          );
   }
 
 }

@@ -6,7 +6,7 @@ class Opening extends StatelessWidget {
     return Scaffold(
       appBar: openAppBar(),
       body: Container(
-        color: Colors.grey[400],
+        color: Colors.grey[300],
         child: ListView(
           children: <Widget>[
             Padding(
@@ -110,7 +110,6 @@ class Opening extends StatelessWidget {
       ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.lightGreen[700],
       automaticallyImplyLeading: false,
     );
   }
@@ -126,9 +125,6 @@ class Opening extends StatelessWidget {
           color: Colors.black38,
           fontWeight: FontWeight.w400,
           fontSize: 20,
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.lightGreen[700]),
         ),
       ),
       style: TextStyle(fontSize: 20),

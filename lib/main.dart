@@ -19,5 +19,8 @@ void main() => runApp(MaterialApp(
     '/wrap': (context) => Wrapper(),
     '/cadastro': (context) => Cadastro(),
   },
+  theme: ThemeData(
+    primaryColor: Colors.lightGreen[700],
+  ),
 ));
 
