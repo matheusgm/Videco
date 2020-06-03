@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "826064339003",
+    "firebase_url": "https://videco-cac25.firebaseio.com",
+    "project_id": "videco-cac25",
+    "storage_bucket": "videco-cac25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826064339003:android:b60991bd09efccb7d25c1e",
+        "android_client_info": {
+          "package_name": "com.videcoID.flutterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826064339003-sphct5i5hh8qrppbn0hslr4ildpinl3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBEJCdoYZvB4WUXckQI6ifNbMhfQAVH8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826064339003-sphct5i5hh8qrppbn0hslr4ildpinl3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
