@@ -89,7 +89,7 @@ class Opening extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  containerButton("Sign-up",TextAlign.center,(){Navigator.pushNamed(context, "/character");}),
+                  containerButton("Sign-up",TextAlign.center,(){Navigator.pushNamed(context, "/cadastro");}),
                   
                 ]
               ,),

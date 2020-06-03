@@ -5,6 +5,7 @@ import 'screens/home/loading.dart';
 import 'screens/home/Set_Character.dart';
 import 'screens/home/open.dart';
 import 'screens/wrapper.dart';
+import 'screens/home/cadastro.dart';
 
 
 void main() => runApp(MaterialApp(
@@ -16,6 +17,7 @@ void main() => runApp(MaterialApp(
     '/home': (context) => Home(),
     '/profile': (context) => Profile(),
     '/wrap': (context) => Wrapper(),
+    '/cadastro': (context) => Cadastro(),
   },
 ));
 
