@@ -10,6 +10,22 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+showAlertDialog(BuildContext context){
+  AlertDialog alert=AlertDialog(
+    content: new Row(
+        children: [
+           CircularProgressIndicator(),
+           Container(margin: EdgeInsets.only(left: 5),child:Text("Loading" )),
+        ],),
+  );
+  showDialog(barrierDismissible: false,
+    context:context,
+    builder:(BuildContext context){
+      return alert;
+    },
+  );
+}
+
 class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
 
@@ -52,6 +68,7 @@ class _LoginState extends State<Login> {
                   height: 40,
                 ),
                 _loginButton("Login", () async {
+                  showAlertDialog(context);
                   dynamic result = await _auth.signInWithEmailAndPassword(
                       emailController.text.trim(),
                       passwordController.text.trim());
