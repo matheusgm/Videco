@@ -74,7 +74,7 @@ class _CadastroState extends State<Cadastro> {
                         user.password = passwordController.text;
                         user.dataNascimento = dataNascimentoController.text;
                         await Firestore.instance.collection('usuarios').document(user.uid).setData(user.toJson());
-                        Navigator.pushNamed(context, "/opening");
+                        Navigator.pushNamed(context, "/");
                       }
                     }
                   })
