@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
                         .then((data) => {
                               if (data.exists) {user.fromJson(data.data)}
                             });
-                    Navigator.pushNamed(context, "/profile", arguments: user);
+                    Navigator.pushReplacementNamed(context,  "/profile",arguments: user);
                   }
                   /* User user = User();
                   user.nome = "teste";
