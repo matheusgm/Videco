@@ -51,6 +51,7 @@ flutter:
     - Assets/Perfil.jpeg
     - Assets/Light.jpg
     - Assets/Hardcore.jpg
+    - Assets/exercice-personne-agee.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
