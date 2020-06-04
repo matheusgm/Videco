@@ -15,7 +15,12 @@ void main() => runApp(MaterialApp(
   },
   theme: ThemeData(
     primaryColor: Colors.lightGreen[700],
-    fontFamily: 'Lato'
+    fontFamily: 'Lato',
+    backgroundColor: Colors.grey[300],
+    /* textTheme: TextTheme(
+      headline3: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+      headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+    ), */
   ),
 ));
 

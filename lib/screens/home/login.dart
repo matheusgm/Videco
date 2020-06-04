@@ -3,146 +3,144 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
 import 'package:flutterapp/services/auth.dart';
 
+import '../../widgetsReutilizados.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-
   final AuthService _auth = AuthService();
 
-  final emailController= TextEditingController();
-  final passwordController= TextEditingController();
+  // text field controller
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: openAppBar(),
-      body: Container(
-        color: Colors.grey[300],
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 60, left: 30, right: 30),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 128,
-                    height: 128,
-                    child:  CircleAvatar(
-                      backgroundImage: AssetImage('Assets/Light.jpg'),
-                      radius: 50.0,
-                    ),
-                    //Image.asset('Assets/Light.jpg')
+      appBar: WidgetsReutilizados.openAppBar("Videco"),
+      body: _bodyLogin(),
+    );
+  }
 
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  textFormWidget("E-mail",TextInputType.emailAddress,emailController),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  textFormWidget("Senha",TextInputType.text,passwordController, obscureText:true),
-                  
-                  containerButton("Recuperar Senha",TextAlign.right,(){Navigator.pushNamed(context, "/character");},alignment: Alignment.centerRight),
+  Widget _bodyLogin() {
+    return Container(
+      child: ListView(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 60, left: 30, right: 30),
+            child: Column(
+              children: [
+                _avatarLogin(),
+                SizedBox(
+                  height: 20,
+                ),
+                textFormWidget("E-mail", TextInputType.emailAddress,
+                    emailController, Icons.email),
+                SizedBox(
+                  height: 10,
+                ),
+                textFormWidget(
+                    "Senha", TextInputType.text, passwordController, Icons.lock,
+                    obscureText: true),
+                containerButton("Recuperar Senha", TextAlign.right, () {
+                  Navigator.pushNamed(context, "/character");
+                }, alignment: Alignment.centerRight),
+                SizedBox(
+                  height: 40,
+                ),
+                _loginButton("Login", () async {
+                  dynamic result = await _auth.signInWithEmailAndPassword(
+                      emailController.text.trim(),
+                      passwordController.text.trim());
+                  if (result == null) {
+                    print("Error ao fazer Login!");
+                  } else {
+                    User user = User(uid: result.uid);
+                    await Firestore.instance
+                        .collection('usuarios')
+                        .document(user.uid)
+                        .get()
+                        .then((data) => {
+                              if (data.exists) {user.fromJson(data.data)}
+                            });
+                    Navigator.pushNamed(context, "/profile", arguments: user);
+                  }
+                  /* User user = User();
+                  user.nome = "teste";
+                  user.email = "email teste";
+                  user.dataNascimento = "data teste";
+                  Navigator.pushNamed(context, "/profile", arguments: user); */
+                }),
+                SizedBox(
+                  height: 10,
+                ),
+                containerButton("Sign-up", TextAlign.center, () {
+                  Navigator.pushNamed(context, "/cadastro");
+                }),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Container(
-                    height: 60,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [0.3, 1],
-                        colors: [
-                          Colors.lightGreen[800],
-                          Colors.lightGreen[600],
-                        ],
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                    child: SizedBox.expand(
-                      child: _loginButton(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  containerButton("Sign-up",TextAlign.center,(){Navigator.pushNamed(context, "/cadastro");}),
-                  
-                ]
-              ,),
-            )
+  Widget _avatarLogin() {
+    return SizedBox(
+      width: 128,
+      height: 128,
+      child: CircleAvatar(
+        backgroundImage: AssetImage('Assets/Light.jpg'),
+        radius: 50.0,
+      ),
+    );
+  }
+
+  Widget _loginButton(texto, onPressed) {
+    return Container(
+      height: 60,
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.3, 1],
+          colors: [
+            Colors.lightGreen[800],
+            Colors.lightGreen[600],
           ],
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: SizedBox.expand(
+        child: FlatButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                texto,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ],
+          ),
+          onPressed: onPressed,
         ),
       ),
     );
   }
 
-  Widget openAppBar(){
-    return AppBar(
-      title: Text('Videco',
-      style: TextStyle(
-        fontSize: 24.0,
-        letterSpacing: 2.0,
-      ),
-      ),
-      centerTitle: true,
-    );
-  }
-
-  Widget _loginButton(){
-    return FlatButton(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "Login",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: 20,
-            ),
-            textAlign: TextAlign.left,
-          ),
-          Container(
-            child: SizedBox(
-              child: CircleAvatar(
-                backgroundImage: AssetImage('Assets/Hardcore.jpg'),
-                radius: 50.0,
-              ),
-              height: 28,
-              width: 28,
-            ),
-          )
-        ],
-      ),
-      onPressed: () async {
-        dynamic result = await _auth.signInWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
-        if(result == null) {
-          print("Error ao fazer Login!");
-        }else{
-          User user = User(uid: result.uid);
-          await Firestore.instance.collection('usuarios').document(user.uid).get().then((data) => {
-            if(data.exists){
-              user.fromJson(data.data)
-            }
-          });
-          Navigator.pushNamed(context, "/profile",arguments: user);
-        }
-        
-      },
-    );
-  }
-
-  Widget textFormWidget(text, textInputType,controller,{obscureText = false}){
+  Widget textFormWidget(text, textInputType, controller, icon,
+      {obscureText = false}) {
     return TextFormField(
       // autofocus: true,
       controller: controller,
@@ -150,18 +148,14 @@ class _LoginState extends State<Login> {
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: text,
-        labelStyle: TextStyle(
-          color: Colors.black38,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
+        icon: Icon(icon),
       ),
-      style: TextStyle(fontSize: 20),
       cursorColor: Colors.lightGreen[700],
     );
   }
 
-  Widget containerButton(texto,textAlign,onClick,{alignment = Alignment.center}){
+  Widget containerButton(texto, textAlign, onClick,
+      {alignment = Alignment.center}) {
     return Container(
       height: 40,
       alignment: alignment,
@@ -174,6 +168,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
 }
-
