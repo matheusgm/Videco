@@ -105,7 +105,6 @@ class Opening extends StatelessWidget {
       title: Text('Videco',
       style: TextStyle(
         fontSize: 24.0,
-        fontFamily: 'Lato',
         letterSpacing: 2.0,
       ),
       ),

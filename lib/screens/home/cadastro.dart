@@ -33,12 +33,10 @@ class _CadastroState extends State<Cadastro> {
       title: Text('Videco',
       style: TextStyle(
         fontSize: 24.0,
-        fontFamily: 'Lato',
         letterSpacing: 2.0,
       ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.lightGreen[700],
       automaticallyImplyLeading: false,
     );
   }

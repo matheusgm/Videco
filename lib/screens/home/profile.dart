@@ -16,7 +16,6 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: Text('Videco ID Card'),
         centerTitle: true,
-        backgroundColor: Colors.lightGreen,
         elevation: 0.0,
       ),
       drawer: drawerWidget(),
@@ -45,16 +44,16 @@ class _ProfileState extends State<Profile> {
               height: 60.0,
               color: Colors.grey[900],
             ),
-            textProfile('NAME',Colors.grey[750],spacing:2.0,fontFamily:'Lato'),
+            textProfile('NAME',Colors.grey[750],spacing:2.0),
 
             SizedBox(height: 10.0),
-            textProfile('Paulo Bessa',Colors.green,spacing:2.0,size: 28.0, fontFamily:'Lato'),
+            textProfile('Paulo Bessa',Colors.green,spacing:2.0,size: 28.0),
 
             SizedBox(height: 30.0),
-            textProfile('CURRENT VIDECO LEVEL',Colors.grey[750],spacing:2.0,fontFamily:'Lato'),
+            textProfile('CURRENT VIDECO LEVEL',Colors.grey[750],spacing:2.0),
             
             SizedBox(height: 10.0),
-            textProfile('$videcolevel',Colors.green,spacing:2.0,size:28.0,fontFamily:'Lato'),
+            textProfile('$videcolevel',Colors.green,spacing:2.0,size:28.0),
             
             SizedBox(height: 30.0),
             Row(
@@ -64,7 +63,7 @@ class _ProfileState extends State<Profile> {
                     color: Colors.grey[600]
                 ),
                 SizedBox(width: 10.0,),
-                textProfile('paulobessamonteiro@gmail.com',Colors.grey[600],size:18.0,fontFamily:'Lato'),
+                textProfile('paulobessamonteiro@gmail.com',Colors.grey[600],size:18.0),
                 
               ],
             ),
@@ -75,7 +74,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget textProfile(texto, color, {spacing = 1.0, size = 14.0, fontFamily, FontWeight weight = FontWeight.normal}){
+  Widget textProfile(texto, color, {spacing = 1.0, size = 14.0, FontWeight weight = FontWeight.normal}){
     return Text(
       texto,
       style: TextStyle(
@@ -83,7 +82,6 @@ class _ProfileState extends State<Profile> {
         letterSpacing: spacing,
         fontSize: size,
         fontWeight: weight,
-        fontFamily: fontFamily,
       ),
     );
   }

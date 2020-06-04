@@ -21,6 +21,7 @@ void main() => runApp(MaterialApp(
   },
   theme: ThemeData(
     primaryColor: Colors.lightGreen[700],
+    fontFamily: 'Lato'
   ),
 ));
 
