@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/models/user.dart';
+import 'package:flutterapp/services/auth.dart';
 
-class Opening extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+  final AuthService _auth = AuthService();
+
+  final emailController= TextEditingController();
+  final passwordController= TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +39,11 @@ class Opening extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  textFormWidget("E-mail",TextInputType.emailAddress),
+                  textFormWidget("E-mail",TextInputType.emailAddress,emailController),
                   SizedBox(
                     height: 10,
                   ),
-                  textFormWidget("Senha",TextInputType.text, obscureText:true),
+                  textFormWidget("Senha",TextInputType.text,passwordController, obscureText:true),
                   
                   containerButton("Recuperar Senha",TextAlign.right,(){Navigator.pushNamed(context, "/character");},alignment: Alignment.centerRight),
 
@@ -55,35 +68,7 @@ class Opening extends StatelessWidget {
                       ),
                     ),
                     child: SizedBox.expand(
-                      child: FlatButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              "Login",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Container(
-                              child: SizedBox(
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage('Assets/Hardcore.jpg'),
-                                  radius: 50.0,
-                                ),
-                                height: 28,
-                                width: 28,
-                              ),
-                            )
-                          ],
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/profile");
-                        },
-                      ),
+                      child: _loginButton(),
                     ),
                   ),
                   SizedBox(
@@ -113,9 +98,49 @@ class Opening extends StatelessWidget {
     );
   }
 
-  Widget textFormWidget(text, textInputType,{obscureText = false}){
+  Widget _loginButton(){
+    return FlatButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            "Login",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 20,
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Container(
+            child: SizedBox(
+              child: CircleAvatar(
+                backgroundImage: AssetImage('Assets/Hardcore.jpg'),
+                radius: 50.0,
+              ),
+              height: 28,
+              width: 28,
+            ),
+          )
+        ],
+      ),
+      onPressed: () async {
+        dynamic result = await _auth.signInWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
+        if(result == null) {
+          print("Error ao fazer Login!");
+        }else{
+          User user = result;
+          Navigator.pushNamed(context, "/profile");
+        }
+        
+      },
+    );
+  }
+
+  Widget textFormWidget(text, textInputType,controller,{obscureText = false}){
     return TextFormField(
       // autofocus: true,
+      controller: controller,
       keyboardType: textInputType,
       obscureText: obscureText,
       decoration: InputDecoration(
