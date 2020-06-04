@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/models/user.dart';
+import './../../services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -6,6 +9,15 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
+
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
+  // text field controller
+  final nomeController = TextEditingController();
+  final emailController= TextEditingController();
+  final passwordController= TextEditingController();
+  final dataNascimentoController= TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,30 +48,48 @@ class _CadastroState extends State<Cadastro> {
       children: [
         Padding(
             padding: EdgeInsets.all(30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
 
-                _textInputHome("Nome","",Icons.person),
-                _textInputHome("Email","example@example.com",Icons.email),
-                _textInputHome("Senha","",Icons.lock,obscureText:true),
-                _textInputHome("CPF","000.000.000-00",Icons.format_list_numbered),
-                _textInputHome("Data de Nascimento","00/00/0000",Icons.date_range),
+                  _textInputHome("Nome","",Icons.person,nomeController),
+                  _textInputHome("Email","example@example.com",Icons.email,emailController),
+                  _textInputHome("Senha","",Icons.lock,passwordController,obscureText:true),
+                  _textInputHome("Data de Nascimento","00/00/0000",Icons.date_range,dataNascimentoController),
 
-                SizedBox(
-                    height: 40,
-                ),
+                  SizedBox(
+                      height: 40,
+                  ),
 
-                _buttonCadastro("Cadastrar",() {})
+                  _buttonCadastro("Cadastrar",() async {
+                    if(_formKey.currentState.validate()){
+                      print("foi");
+                      dynamic result = await _auth.registerWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
+                      if(result == null) {
+                        print("Error ao cadastrar!");
+                      }else{
+                        User user = result;
+                        user.nome = nomeController.text;
+                        user.email = emailController.text;
+                        user.password = passwordController.text;
+                        user.dataNascimento = dataNascimentoController.text;
+                        await Firestore.instance.collection('usuarios').document(user.uid).setData(user.toJson());
+                        Navigator.pushNamed(context, "/opening");
+                      }
+                    }
+                  })
 
-              ],
+                ],
+              ),
             ),
           )
       ],
     );
   }
 
-  Widget _textInputHome(label,hintText,icon,{obscureText=false}){
+  Widget _textInputHome(label,hintText,icon,TextEditingController controller,{obscureText=false}){
     return TextField(
             decoration: InputDecoration(
               labelText: label,
@@ -68,6 +98,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             obscureText: obscureText,
             cursorColor: Colors.lightGreen[700],
+            controller: controller,
           );
   }
 
