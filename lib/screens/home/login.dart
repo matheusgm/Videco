@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
 import 'package:flutterapp/services/auth.dart';
@@ -94,7 +95,6 @@ class _LoginState extends State<Login> {
       ),
       ),
       centerTitle: true,
-      automaticallyImplyLeading: false,
     );
   }
 
@@ -129,8 +129,13 @@ class _LoginState extends State<Login> {
         if(result == null) {
           print("Error ao fazer Login!");
         }else{
-          User user = result;
-          Navigator.pushNamed(context, "/profile");
+          User user = User(uid: result.uid);
+          await Firestore.instance.collection('usuarios').document(user.uid).get().then((data) => {
+            if(data.exists){
+              user.fromJson(data.data)
+            }
+          });
+          Navigator.pushNamed(context, "/profile",arguments: user);
         }
         
       },

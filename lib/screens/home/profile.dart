@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/models/user.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -7,17 +8,15 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
+  
   int videcolevel = 0;
 
   @override
   Widget build(BuildContext context) {
+    User user = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        title: Text('Videco ID Card'),
-        centerTitle: true,
-        elevation: 0.0,
-      ),
+      appBar: openAppBar(),
       drawer: drawerWidget(),
 
       floatingActionButton: FloatingActionButton(
@@ -47,7 +46,7 @@ class _ProfileState extends State<Profile> {
             textProfile('NAME',Colors.grey[750],spacing:2.0),
 
             SizedBox(height: 10.0),
-            textProfile('Paulo Bessa',Colors.green,spacing:2.0,size: 28.0),
+            textProfile(user.nome,Colors.green,spacing:2.0,size: 28.0),
 
             SizedBox(height: 30.0),
             textProfile('CURRENT VIDECO LEVEL',Colors.grey[750],spacing:2.0),
@@ -63,14 +62,25 @@ class _ProfileState extends State<Profile> {
                     color: Colors.grey[600]
                 ),
                 SizedBox(width: 10.0,),
-                textProfile('paulobessamonteiro@gmail.com',Colors.grey[600],size:18.0),
-                
+                textProfile(user.email,Colors.grey[600],size:18.0),
               ],
             ),
-            
           ],
         ),
       ),
+    );
+  }
+
+  Widget openAppBar(){
+    return AppBar(
+      title: Text('Videco ID Card',
+        style: TextStyle(
+          fontSize: 24.0,
+          letterSpacing: 2.0,
+        ),
+      ),
+      centerTitle: true,
+      elevation: 0.0,
     );
   }
 
