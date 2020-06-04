@@ -51,6 +51,30 @@ class _CharacterState extends State<Character> {
               Row(
                 children: <Widget>[
                   CircleAvatar(
+                    backgroundImage: AssetImage('Assets/exercice-personne-agee.jpg'),
+                    radius: 60.0,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    },
+                    child: Text('Casual profile',
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        letterSpacing: 2.0,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 60.0,
+                color: Colors.grey[900],
+              ),
+              Row(
+                children: <Widget>[
+                  CircleAvatar(
                     backgroundImage: AssetImage('Assets/Hardcore.jpg'),
                     radius: 60.0,
                   ),

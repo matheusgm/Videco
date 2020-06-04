@@ -50,7 +50,9 @@ class _CadastroState extends State<Cadastro> {
                     height: 40,
                 ),
 
-                _buttonCadastro("Cadastrar",() {})
+                _buttonCadastro("Cadastrar",() {
+                  Navigator.pushNamed(context, '/character');
+                })
 
               ],
             ),
