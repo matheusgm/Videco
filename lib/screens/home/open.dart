@@ -32,7 +32,7 @@ class Opening extends StatelessWidget {
                   ),
                   textFormWidget("Senha",TextInputType.text, obscureText:true),
                   
-                  containerButton("Recuperar Senha",TextAlign.right,(){Navigator.pushNamed(context, "/wrap");},alignment: Alignment.centerRight),
+                  containerButton("Recuperar Senha",TextAlign.right,(){Navigator.pushNamed(context, "/character");},alignment: Alignment.centerRight),
 
                   SizedBox(
                     height: 40,

@@ -63,7 +63,6 @@ class _CadastroState extends State<Cadastro> {
 
                   _buttonCadastro("Cadastrar",() async {
                     if(_formKey.currentState.validate()){
-                      print("foi");
                       dynamic result = await _auth.registerWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
                       if(result == null) {
                         print("Error ao cadastrar!");
@@ -76,6 +75,8 @@ class _CadastroState extends State<Cadastro> {
                         await Firestore.instance.collection('usuarios').document(user.uid).setData(user.toJson());
                         Navigator.pushNamed(context, "/");
                       }
+                    }else{
+                      print("form key erro");
                     }
                   })
 
