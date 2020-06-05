@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/home/cadastro.dart';
 import 'package:flutterapp/screens/home/character.dart';
 import 'package:flutterapp/services/auth.dart';
-
 import '../../widgetsReutilizados.dart';
 import '../loading.dart';
 
@@ -11,54 +10,11 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-/* showAlertDialog(BuildContext context) {
-  AlertDialog alert = AlertDialog(
-    content: new Row(
-      children: [
-        CircularProgressIndicator(),
-        Container(margin: EdgeInsets.only(left: 5), child: Text("Loading")),
-      ],
-    ),
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
- */
-showAlertErroLogin(BuildContext context) {
-  AlertDialog alert = AlertDialog(
-    title: Text("Erro ao fazer login"),
-    content: new Row(
-      children: [
-        Container(margin: EdgeInsets.only(left: 5), child: Text("")),
-      ],
-    ),
-    actions: <Widget>[
-      FlatButton(
-        child: Text("Tente Novamente"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    ],
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
 class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  String erroLogin = "";
 
   // text field controller
   final emailController = TextEditingController();
@@ -66,10 +22,12 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
-      appBar: WidgetsReutilizados.openAppBar("Videco"),
-      body: _bodyLogin(),
-    );
+    return loading
+        ? Loading()
+        : Scaffold(
+            appBar: WidgetsReutilizados.openAppBar("Videco"),
+            body: _bodyLogin(),
+          );
   }
 
   Widget _bodyLogin() {
@@ -86,49 +44,43 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 20,
                     ),
-                    textFormWidget("E-mail", TextInputType.emailAddress,
-                        emailController, Icons.email, (val) {
-                      if (val.isEmpty) {
-                        return "Email invalido!";
-                      } else {
-                        return null;
-                      }
-                    }),
+                    textFormWidget(
+                      "E-mail",
+                      TextInputType.emailAddress,
+                      emailController,
+                      Icons.email,
+                      (val) =>
+                          textFormValidatorFunction(val, "Email invalido!"),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
-                    textFormWidget("Senha", TextInputType.text,
-                        passwordController, Icons.lock, (val) {
-                      if (val.isEmpty) {
-                        return "Senha invalida!";
-                      } else {
-                        return null;
-                      }
-                    }, obscureText: true),
+                    textFormWidget(
+                        "Senha",
+                        TextInputType.text,
+                        passwordController,
+                        Icons.lock,
+                        (val) =>
+                            textFormValidatorFunction(val, "Senha invalida!"),
+                        obscureText: true),
                     containerButton("Recuperar Senha", TextAlign.right, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Character()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Character()));
                     }, alignment: Alignment.centerRight),
                     SizedBox(
                       height: 40,
                     ),
-                    _loginButton("Login", () async {
-                      if (_formKey.currentState.validate()) {
-                        setState(()=> loading = true);
-                        dynamic result = await _auth.signInWithEmailAndPassword(
-                            emailController.text.trim(),
-                            passwordController.text.trim());
-                        if (result == null) {
-                          print("Error ao fazer Login!");
-                          setState(()=> loading = false);
-                          showAlertErroLogin(context);
-                        }
-                      }
-                    }),
+                    _loginButton("Login", () => submitLoginButton()),
+                    Text(
+                      erroLogin,
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     containerButton("Sign-up", TextAlign.center, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Cadastro()));
                     }),
                   ],
                 ),
@@ -136,6 +88,29 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  void submitLoginButton() async {
+    if (_formKey.currentState.validate()) {
+      setState(() => loading = true);
+      dynamic result = await _auth.signInWithEmailAndPassword(
+          emailController.text.trim(), passwordController.text.trim());
+      if (result == null) {
+        print("Error ao fazer Login!");
+        setState(() => {
+              loading = false,
+              erroLogin = "Erro ao realizar Login. Tente novamente!"
+            });
+      }
+    }
+  }
+
+  String textFormValidatorFunction(val, nome) {
+    if (val.isEmpty) {
+      return nome;
+    } else {
+      return null;
+    }
   }
 
   Widget _avatarLogin() {

@@ -5,7 +5,6 @@ import 'package:flutterapp/screens/loading.dart';
 import 'package:flutterapp/services/auth.dart';
 import 'package:flutterapp/services/database.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgetsReutilizados.dart';
 
 class Profile extends StatefulWidget {
@@ -21,18 +20,18 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    print("Email: ${user.email}");
+    //print("Email: ${user.email}");
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserData userData = snapshot.data;
-            print(userData.nome + " - " + userData.dataNascimento);
+            //print(userData.nome + " - " + userData.dataNascimento);
             return Scaffold(
               appBar: WidgetsReutilizados.openAppBar("Videco ID Card"),
               drawer: drawerWidget(),
               floatingActionButton: _floatingActionButton(),
-              body: _bodyProfile(),
+              body: _bodyProfile(user, userData),
             );
           } else {
             return Loading();
@@ -40,7 +39,7 @@ class _ProfileState extends State<Profile> {
         });
   }
 
-  Widget _bodyProfile() {
+  Widget _bodyProfile(User user, UserData userData) {
     return ListView(
       children: [
         Padding(
@@ -55,7 +54,7 @@ class _ProfileState extends State<Profile> {
               ),
               textTituloProfile('NAME'),
               SizedBox(height: 10.0),
-              textInfoProfile("nome"),
+              textInfoProfile(userData.nome),
               SizedBox(height: 30.0),
               textTituloProfile('CURRENT VIDECO LEVEL'),
               SizedBox(height: 10.0),
@@ -67,7 +66,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  textProfile("email", Colors.grey[600], size: 18.0),
+                  textProfile(user.email, Colors.grey[600], size: 18.0),
                 ],
               ),
             ],

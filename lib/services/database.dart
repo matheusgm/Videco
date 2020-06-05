@@ -19,9 +19,8 @@ class DatabaseService {
   // user data from snapshots
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
-      uid: uid,
-      nome: snapshot.data['nome'],
-      dataNascimento: snapshot.data['dataNascimento'],
+      nome: snapshot.data['nome'].toString().trim(),
+      dataNascimento: snapshot.data['dataNascimento'].toString().trim(),
     );
   }
 
