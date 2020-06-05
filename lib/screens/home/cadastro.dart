@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
+import 'package:flutterapp/models/userData.dart';
 import '../../widgetsReutilizados.dart';
 import './../../services/auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -37,13 +38,22 @@ class _CadastroState extends State<Cadastro> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _textInputCadastro("Nome", "", Icons.person, nomeController),
-                _textInputCadastro("Email", "example@example.com", Icons.email,
-                    emailController),
-                _textInputCadastro("Senha", "", Icons.lock, passwordController,
-                    obscureText: true),
-                _textInputCadastro("Data de Nascimento", "00/00/0000",
-                    Icons.date_range, dataNascimentoController),
+                _textFormCadastro("Nome", "", Icons.person, nomeController,
+                    (val) {
+                  return val.isEmpty ? "Nome invalido" : null;
+                }),
+                _textFormCadastro("Email", "example@example.com", Icons.email,
+                    emailController, (val) {
+                  return val.isEmpty ? "Email invalido" : null;
+                }),
+                _textFormCadastro("Senha", "", Icons.lock, passwordController,
+                    (val) {
+                  return val.isEmpty ? "Senha invalida" : null;
+                }, obscureText: true),
+                _textFormCadastro("Data de Nascimento", "00/00/0000",
+                    Icons.date_range, dataNascimentoController, (val) {
+                  return val.isEmpty ? "Data de Nascimento invalida" : null;
+                }),
                 SizedBox(
                   height: 40,
                 ),
@@ -55,16 +65,13 @@ class _CadastroState extends State<Cadastro> {
                     if (result == null) {
                       print("Error ao cadastrar!");
                     } else {
-                      User user = result;
-                      user.nome = nomeController.text;
-                      user.email = emailController.text;
-                      user.password = passwordController.text;
-                      user.dataNascimento = dataNascimentoController.text;
+                      UserData userData = UserData(
+                          nome: nomeController.text,
+                          dataNascimento: dataNascimentoController.text);
                       await Firestore.instance
                           .collection('usuarios')
-                          .document(user.uid)
-                          .setData(user.toJson());
-                      Navigator.pushNamed(context, "/");
+                          .document(result.uid)
+                          .setData(userData.toJson());
                     }
                   } else {
                     print("form key erro");
@@ -78,14 +85,16 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  Widget _textInputCadastro(label, hintText, icon, TextEditingController controller,
+  Widget _textFormCadastro(
+      label, hintText, icon, TextEditingController controller, validator,
       {obscureText = false}) {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
           labelText: label, hintText: hintText, icon: Icon(icon)),
       obscureText: obscureText,
       cursorColor: Theme.of(context).primaryColor,
       controller: controller,
+      validator: validator,
     );
   }
 

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
+import 'package:flutterapp/models/userData.dart';
+import 'package:flutterapp/screens/loading.dart';
+import 'package:flutterapp/services/auth.dart';
+import 'package:flutterapp/services/database.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgetsReutilizados.dart';
 
@@ -9,20 +14,33 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final AuthService _auth = AuthService();
+
   int videcolevel = 0;
 
   @override
   Widget build(BuildContext context) {
-    User user = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      appBar: WidgetsReutilizados.openAppBar("Videco ID Card"),
-      drawer: drawerWidget(),
-      floatingActionButton: _floatingActionButton(),
-      body: _bodyProfile(user),
-    );
+    User user = Provider.of<User>(context);
+    print("Email: ${user.email}");
+    return StreamBuilder<UserData>(
+        stream: DatabaseService(uid: user.uid).userData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            UserData userData = snapshot.data;
+            print(userData.nome + " - " + userData.dataNascimento);
+            return Scaffold(
+              appBar: WidgetsReutilizados.openAppBar("Videco ID Card"),
+              drawer: drawerWidget(),
+              floatingActionButton: _floatingActionButton(),
+              body: _bodyProfile(),
+            );
+          } else {
+            return Loading();
+          }
+        });
   }
 
-  Widget _bodyProfile(User user) {
+  Widget _bodyProfile() {
     return ListView(
       children: [
         Padding(
@@ -37,7 +55,7 @@ class _ProfileState extends State<Profile> {
               ),
               textTituloProfile('NAME'),
               SizedBox(height: 10.0),
-              textInfoProfile(user.nome),
+              textInfoProfile("nome"),
               SizedBox(height: 30.0),
               textTituloProfile('CURRENT VIDECO LEVEL'),
               SizedBox(height: 10.0),
@@ -49,7 +67,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  textProfile(user.email, Colors.grey[600], size: 18.0),
+                  textProfile("email", Colors.grey[600], size: 18.0),
                 ],
               ),
             ],
@@ -121,7 +139,9 @@ class _ProfileState extends State<Profile> {
             Navigator.pop(context);
           }),
           tileProfile('Settings', Icons.settings, () {}),
-          tileProfile('Logout', Icons.exit_to_app, () {})
+          tileProfile('Logout', Icons.exit_to_app, () async {
+            await _auth.signOut();
+          })
         ],
       ),
     );
