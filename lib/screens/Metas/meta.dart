@@ -1,11 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/userData.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/services/userDatabase.dart';
 import 'package:flutterapp/screens/Metas/Lista.dart';
+import '../../design/bezier_curves.dart';
+import '../../design/arcPainter.dart';
 
 int multiplier = 1;
 int day = 1;
@@ -67,7 +67,7 @@ class _MetasState extends State<Metas> {
           ),
         ),
       ),
-      clipper: BottomWaveClipper(),
+      clipper: BottomWaveClipper2(),
     );
   }
 }
@@ -135,74 +135,4 @@ Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
   );
 }
 
-class MyArc extends StatelessWidget {
-  final double diameter;
-  final double angle;
-  final Color color;
 
-  const MyArc({Key key, this.diameter = 200, this.angle, this.color})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter:
-          MyPainter(this.angle, this.color, MediaQuery.of(context).size.width),
-      size: Size(diameter, diameter),
-    );
-  }
-}
-
-// This is the Painter class
-class MyPainter extends CustomPainter {
-  final double angle;
-  final Color color;
-  final double dx;
-  MyPainter(this.angle, this.color, this.dx);
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = this.color;
-    canvas.drawArc(
-      Rect.fromCenter(
-        center: Offset(dx, 0),
-        height: size.height,
-        width: size.width,
-      ),
-      pi / 2,
-      pi / 2,
-      true,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-
-class BottomWaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = new Path();
-    path.lineTo(0.0, size.height - 20);
-
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2.25, size.height - 30.0);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondControlPoint =
-        Offset(size.width - (size.width / 3.25), size.height - 65);
-    var secondEndPoint = Offset(size.width, size.height - 40);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, size.height - 40);
-    path.lineTo(size.width, 0.0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}

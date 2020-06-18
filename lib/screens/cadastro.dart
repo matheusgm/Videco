@@ -41,25 +41,44 @@ class _CadastroState extends State<Cadastro> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _textFormCadastro("Nome", "", Icons.person, nomeController,
-                    (val) {
-                  return val.isEmpty ? "Nome invalido" : null;
-                }),
-                _textFormCadastro("Email", "example@example.com", Icons.email,
-                    emailController, (val) {
-                  return val.isEmpty ? "Email invalido" : null;
-                }),
-                _textFormCadastro("Senha", "", Icons.lock, passwordController,
-                    (val) {
-                  return val.isEmpty ? "Senha invalida" : null;
-                }, obscureText: true),
-                _textFormCadastro("Data de Nascimento", "00/00/0000",
-                    Icons.date_range, dataNascimentoController, (val) {
-                  return val.isEmpty ? "Data de Nascimento invalida" : null;
-                }),
-                SizedBox(
-                  height: 40,
+                _textFormCadastro(
+                  "Nome",
+                  "",
+                  Icons.person,
+                  nomeController,
+                  (val) {
+                    return val.isEmpty ? "Nome invalido" : null;
+                  },
                 ),
+                _textFormCadastro(
+                  "Email",
+                  "example@example.com",
+                  Icons.email,
+                  emailController,
+                  (val) {
+                    return val.isEmpty ? "Email invalido" : null;
+                  },
+                ),
+                _textFormCadastro(
+                  "Senha",
+                  "",
+                  Icons.lock,
+                  passwordController,
+                  (val) {
+                    return val.isEmpty ? "Senha invalida" : null;
+                  },
+                  obscureText: true,
+                ),
+                _textFormCadastro(
+                  "Data de Nascimento",
+                  "00/00/0000",
+                  Icons.date_range,
+                  dataNascimentoController,
+                  (val) {
+                    return val.isEmpty ? "Data de Nascimento invalida" : null;
+                  },
+                ),
+                SizedBox(height: 40),
                 _buttonCadastro("Cadastrar", () => sumbitCadastroButton())
               ],
             ),
@@ -97,7 +116,10 @@ class _CadastroState extends State<Cadastro> {
       {obscureText = false}) {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: label, hintText: hintText, icon: Icon(icon)),
+        labelText: label,
+        hintText: hintText,
+        icon: Icon(icon),
+      ),
       obscureText: obscureText,
       cursorColor: Theme.of(context).primaryColor,
       controller: controller,
