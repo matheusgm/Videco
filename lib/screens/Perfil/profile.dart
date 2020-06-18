@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
 import 'package:flutterapp/models/userData.dart';
-import 'package:flutterapp/screens/Substituto/substituto.dart';
-import 'package:flutterapp/screens/loading.dart';
-import 'package:flutterapp/services/auth.dart';
 import 'package:flutterapp/services/database.dart';
 import 'package:provider/provider.dart';
-import '../../widgetsReutilizados.dart';
-import 'package:flutterapp/screens/Metas/meta.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/screens/Perfil/grafico.dart';
 
@@ -19,8 +14,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -32,40 +25,9 @@ class _ProfileState extends State<Profile> {
             UserData userData = snapshot.data;
             //print(userData.nome + " - " + userData.dataNascimento);
             // generateData(double.parse(userData.exp.toString()));
-            return SafeArea(
-                child: DefaultTabController(
-              initialIndex: 2,
-              length: 5,
-              child: Scaffold(
-                body: TabBarView(
-                  children: [
-                    WavyHeaderImage(
-                        userdata: userData), //metas(context,user.uid,userData),
-                    Substituto(),
-                    profile(user, userData),
-                    Text("4"),
-                    Text("5")
-                  ],
-                ),
-                bottomNavigationBar: TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.list)),
-                    Tab(icon: Icon(Icons.autorenew)),
-                    Tab(icon: Icon(Icons.person)),
-                    Tab(icon: Icon(Icons.store)),
-                    Tab(icon: Icon(Icons.settings)),
-                  ],
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.white,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorPadding: EdgeInsets.all(8.0),
-                  indicatorColor: Colors.black,
-                ),
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-            ));
+            return profile(user, userData);
           } else {
-            return Loading();
+            return Center(child: CircularProgressIndicator());
           }
         });
   }
