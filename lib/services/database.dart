@@ -2,30 +2,24 @@ import '../models/userData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  final String uid;
-  DatabaseService({this.uid});
+  static String uid;
+  DatabaseService();
 
   // collection reference
   final CollectionReference userDataCollection =
       Firestore.instance.collection('usuarios');
 
-  Future<void> updateUserData(String nome, String dataNascimento, int exp, int level) async {
-    return await userDataCollection.document(uid).setData({
-      'nome': nome,
-      'dataNascimento': dataNascimento,
-      'experiencia': exp,
-      'level': level,
-    });
+  Future<void> updateUserData(UserData userData) async {
+    return await userDataCollection.document(uid).setData(userData.toJson());
   }
 
   // user data from snapshots
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
-      nome: snapshot.data['nome'].toString().trim(),
-      dataNascimento: snapshot.data['dataNascimento'].toString().trim(),
-      exp: int.parse(snapshot.data['experiencia'].toString()),
-      level: int.parse(snapshot.data['level'].toString())
-    );
+        nome: snapshot.data['nome'].toString().trim(),
+        dataNascimento: snapshot.data['dataNascimento'].toString().trim(),
+        exp: int.parse(snapshot.data['experiencia'].toString()),
+        level: int.parse(snapshot.data['level'].toString()));
   }
 
   // get user doc stream

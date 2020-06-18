@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutterapp/widgetsReutilizados.dart';
 
 class Character extends StatefulWidget {
@@ -26,7 +25,7 @@ class _CharacterState extends State<Character> {
             children: <Widget>[
               _goalsCharacter(
                 'Light profile',
-                'Assets/Light.jpg',
+                'assets/Light.jpg',
                 () {},
               ),
               Divider(
@@ -35,7 +34,7 @@ class _CharacterState extends State<Character> {
               ),
               _goalsCharacter(
                 'Casual profile',
-                'Assets/exercice-personne-agee.jpg',
+                'assets/exercice-personne-agee.jpg',
                 () {},
               ),
               Divider(
@@ -44,7 +43,7 @@ class _CharacterState extends State<Character> {
               ),
               _goalsCharacter(
                 'Hardcore profile',
-                'Assets/Hardcore.jpg',
+                'assets/Hardcore.jpg',
                 () {},
               ),
             ],

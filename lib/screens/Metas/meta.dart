@@ -2,13 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/models/user.dart';
 import 'package:flutterapp/models/userData.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/services/database.dart';
-import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/Metas/Lista.dart';
-import 'package:flutterapp/screens/Perfil/profile.dart';
 
 int multiplier = 1;
 int day = 1;
@@ -27,63 +24,62 @@ class Metas extends StatefulWidget {
 class _MetasState extends State<Metas> {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
+    return ClipPath(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: [Color(0xff4ac3bb), Color(0xffffffff)],
                 begin: Alignment.topCenter,
-                end: Alignment.bottomCenter)),
-        child: Stack(children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 220),
-            child: StreamBuilder<UserData>(
-                stream: DatabaseService(uid: user.uid).userData,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    UserData userData = snapshot.data;
-                    expLocal = userData.exp;
-                    levelLocal = userData.level;
-                    return ListView(children: <Widget>[
-                      selecionarMeta(listaMetas[0] + '$day', context, 1.0,
-                          user.uid, userData, 1),
-                      selecionarMeta(listaMetas[1] + '$day', context, 1.0,
-                          user.uid, userData, 1),
-                      selecionarMeta(listaMetas[2] + '$day', context, 1.0,
-                          user.uid, userData, 1),
-                      selecionarMeta(listaMetas[3] + '$day', context, 1.0,
-                          user.uid, userData, 1),
-                    ]);
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                }),
+                end: Alignment.bottomCenter),
           ),
-          MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
-          ClipPath(
-            child: Container(),
-            clipper: BottomWaveClipper(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 220),
+                child: StreamBuilder<UserData>(
+                  stream: DatabaseService().userData,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      UserData userData = snapshot.data;
+                      expLocal = userData.exp;
+                      levelLocal = userData.level;
+                      return ListView(children: <Widget>[
+                        selecionarMeta(
+                            listaMetas[0] + '$day', context, 1.0, userData, 1),
+                        selecionarMeta(
+                            listaMetas[1] + '$day', context, 1.0, userData, 1),
+                        selecionarMeta(
+                            listaMetas[2] + '$day', context, 1.0, userData, 1),
+                        selecionarMeta(
+                            listaMetas[3] + '$day', context, 1.0, userData, 1),
+                      ]);
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              ),
+              MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
+            ],
           ),
-        ]),
+        ),
       ),
+      clipper: BottomWaveClipper(),
     );
   }
 }
 
 // Botão da meta
-Widget selecionarMeta(text, context, tempo, uid, userdata, bonus) {
+Widget selecionarMeta(text, context, tempo, userdata, bonus) {
   void nivel() {
-    DatabaseService d = DatabaseService(uid: uid);
-    var exp = expLocal;
-    var level = levelLocal;
-
     expLocal += 5 * multiplier * bonus;
-    if (expLocal >= 200 + (level - 1) * 200) {
+    if (expLocal >= 200 + (levelLocal - 1) * 200) {
       levelLocal += 1;
     }
-    d.updateUserData(
-        userdata.nome, userdata.dataNascimento, expLocal, levelLocal);
+    userdata.exp = expLocal;
+    userdata.level = levelLocal;
+    DatabaseService().updateUserData(userdata);
     day += 1;
   }
 
@@ -118,19 +114,20 @@ Widget selecionarMeta(text, context, tempo, uid, userdata, bonus) {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: ListTile(
-            title: Text(
-              text,
-              style: TextStyle(
-                  color: Colors.lightGreen[900],
-                  fontSize: 14.0,
-                  letterSpacing: 2.0),
-            ),
-            subtitle: Text(
-              '${5 * multiplier * bonus} de experiência',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            leading: Icon(Icons.delete),
-            trailing: Icon(Icons.check)),
+          title: Text(
+            text,
+            style: TextStyle(
+                color: Colors.lightGreen[900],
+                fontSize: 14.0,
+                letterSpacing: 2.0),
+          ),
+          subtitle: Text(
+            '${5 * multiplier * bonus} de experiência',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          leading: Icon(Icons.delete),
+          trailing: Icon(Icons.check),
+        ),
       ),
     ),
   );

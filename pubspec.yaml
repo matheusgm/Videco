@@ -54,19 +54,19 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - Assets/Perfil.jpeg
-    - Assets/Light.jpg
-    - Assets/Hardcore.jpg
-    - Assets/exercice-personne-agee.jpg
-    - Assets/Cloud.png
-    - Assets/Sol.png
-    - Assets/Sun.png
-    - Assets/terra.png
-    - Assets/banheiro.png
-    - Assets/cozinha.png
-    - Assets/quarto.png
-    - Assets/sala_de_jantar.png
-    - Assets/sala.png
+    - assets/Perfil.jpeg
+    - assets/Light.jpg
+    - assets/Hardcore.jpg
+    - assets/exercice-personne-agee.jpg
+    - assets/Cloud.png
+    - assets/Sol.png
+    - assets/Sun.png
+    - assets/terra.png
+    - assets/comodos/banheiro.png
+    - assets/comodos/cozinha.png
+    - assets/comodos/quarto.png
+    - assets/comodos/sala_de_jantar.png
+    - assets/comodos/sala.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

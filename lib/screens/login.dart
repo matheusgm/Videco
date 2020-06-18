@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Cadastro/cadastro.dart';
-import 'package:flutterapp/Cadastro/character.dart';
+import 'package:flutterapp/screens/cadastro.dart';
+import 'package:flutterapp/screens/character.dart';
 import 'package:flutterapp/services/auth.dart';
 import 'package:flutterapp/widgetsReutilizados.dart';
 import 'package:flutterapp/screens/loading.dart';
@@ -11,7 +11,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   String erroLogin = "";
@@ -41,9 +40,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: [
                     _avatarLogin(),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     textFormWidget(
                       "E-mail",
                       TextInputType.emailAddress,
@@ -52,9 +49,7 @@ class _LoginState extends State<Login> {
                       (val) =>
                           textFormValidatorFunction(val, "Email invalido!"),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     textFormWidget(
                         "Senha",
                         TextInputType.text,
@@ -67,17 +62,13 @@ class _LoginState extends State<Login> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Character()));
                     }, alignment: Alignment.centerRight),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40),
                     _loginButton("Login", () => submitLoginButton()),
                     Text(
                       erroLogin,
                       style: TextStyle(color: Colors.red, fontSize: 12),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     containerButton("Sign-up", TextAlign.center, () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Cadastro()));
@@ -93,7 +84,7 @@ class _LoginState extends State<Login> {
   void submitLoginButton() async {
     if (_formKey.currentState.validate()) {
       setState(() => loading = true);
-      dynamic result = await _auth.signInWithEmailAndPassword(
+      dynamic result = await AuthService().signInWithEmailAndPassword(
           emailController.text.trim(), passwordController.text.trim());
       if (result == null) {
         print("Error ao fazer Login!");
@@ -118,7 +109,7 @@ class _LoginState extends State<Login> {
       width: 128,
       height: 128,
       child: CircleAvatar(
-        backgroundImage: AssetImage('Assets/Light.jpg'),
+        backgroundImage: AssetImage('assets/Light.jpg'),
         radius: 50.0,
       ),
     );

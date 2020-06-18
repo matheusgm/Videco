@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/models/userData.dart';
 import 'package:flutterapp/widgetsReutilizados.dart';
 import 'package:flutterapp/services/auth.dart';
-import 'package:flutterapp/models/user.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -11,7 +10,6 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   // text field controller
@@ -68,7 +66,7 @@ class _CadastroState extends State<Cadastro> {
 
   void sumbitCadastroButton() async {
     if (_formKey.currentState.validate()) {
-      dynamic result = await _auth.registerWithEmailAndPassword(
+      dynamic result = await AuthService().registerWithEmailAndPassword(
           emailController.text.trim(), passwordController.text.trim());
       if (result == null) {
         print("Error ao cadastrar!");

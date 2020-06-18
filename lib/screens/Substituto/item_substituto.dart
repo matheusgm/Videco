@@ -115,7 +115,7 @@ class _ItemSubstitutoState extends State<ItemSubstituto> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    image: AssetImage('Assets/comodos/$img'),
+                    image: AssetImage('assets/comodos/$img'),
                     width: 130,
                     height: 130,
                   )

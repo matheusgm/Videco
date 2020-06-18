@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Cadastro/login.dart';
+import 'package:flutterapp/screens/login.dart';
 import 'package:flutterapp/services/auth.dart';
 import 'home.dart';
 import 'models/user.dart';
 import 'package:provider/provider.dart';
-import 'screens/Perfil/profile.dart';
+
+import 'services/database.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,10 +39,11 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     print("Usuario: " + user.toString());
-    
+
     if (user == null) {
       return Login();
     } else {
+      DatabaseService.uid = user.uid;
       return Home();
     }
   }
