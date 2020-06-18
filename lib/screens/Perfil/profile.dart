@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/userData.dart';
-import 'package:flutterapp/services/database.dart';
+import 'package:flutterapp/services/auth.dart';
+import 'package:flutterapp/services/userDatabase.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/screens/Perfil/grafico.dart';
 
@@ -15,7 +16,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<UserData>(
-      stream: DatabaseService().userData,
+      stream: UserDatabaseService().userData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
@@ -93,6 +94,14 @@ class _ProfileState extends State<Profile> {
                 GraficoCO2(userData),
                 GraficoAGUA(userData),
               ],
+            ),
+            Center(
+              child: RaisedButton(
+                child: Text("Logout"),
+                onPressed: () async {
+                  await AuthService().signOut();
+                },
+              ),
             )
           ],
         ),

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/userData.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
-import 'package:flutterapp/services/database.dart';
+import 'package:flutterapp/services/userDatabase.dart';
 import 'package:flutterapp/screens/Metas/Lista.dart';
 
 int multiplier = 1;
@@ -35,32 +35,34 @@ class _MetasState extends State<Metas> {
           ),
           child: Stack(
             children: <Widget>[
+              MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
               Container(
                 margin: EdgeInsets.only(top: 220),
                 child: StreamBuilder<UserData>(
-                  stream: DatabaseService().userData,
+                  stream: UserDatabaseService().userData,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       UserData userData = snapshot.data;
                       expLocal = userData.exp;
                       levelLocal = userData.level;
-                      return ListView(children: <Widget>[
-                        selecionarMeta(
-                            listaMetas[0] + '$day', context, 1.0, userData, 1),
-                        selecionarMeta(
-                            listaMetas[1] + '$day', context, 1.0, userData, 1),
-                        selecionarMeta(
-                            listaMetas[2] + '$day', context, 1.0, userData, 1),
-                        selecionarMeta(
-                            listaMetas[3] + '$day', context, 1.0, userData, 1),
-                      ]);
+                      return ListView(
+                        children: <Widget>[
+                          selecionarMeta(listaMetas[0] + '$day', context, 1.0,
+                              userData, 1),
+                          selecionarMeta(listaMetas[1] + '$day', context, 1.0,
+                              userData, 1),
+                          selecionarMeta(listaMetas[2] + '$day', context, 1.0,
+                              userData, 1),
+                          selecionarMeta(listaMetas[3] + '$day', context, 1.0,
+                              userData, 1),
+                        ],
+                      );
                     } else {
                       return Center(child: CircularProgressIndicator());
                     }
                   },
                 ),
               ),
-              MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
             ],
           ),
         ),
@@ -71,7 +73,7 @@ class _MetasState extends State<Metas> {
 }
 
 // Botão da meta
-Widget selecionarMeta(text, context, tempo, userdata, bonus) {
+Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
   void nivel() {
     expLocal += 5 * multiplier * bonus;
     if (expLocal >= 200 + (levelLocal - 1) * 200) {
@@ -79,7 +81,7 @@ Widget selecionarMeta(text, context, tempo, userdata, bonus) {
     }
     userdata.exp = expLocal;
     userdata.level = levelLocal;
-    DatabaseService().updateUserData(userdata);
+    UserDatabaseService().updateUserData(userdata);
     day += 1;
   }
 
@@ -144,7 +146,8 @@ class MyArc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: MyPainter(this.angle, this.color),
+      painter:
+          MyPainter(this.angle, this.color, MediaQuery.of(context).size.width),
       size: Size(diameter, diameter),
     );
   }
@@ -154,19 +157,20 @@ class MyArc extends StatelessWidget {
 class MyPainter extends CustomPainter {
   final double angle;
   final Color color;
-  MyPainter(this.angle, this.color);
+  final double dx;
+  MyPainter(this.angle, this.color, this.dx);
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()..color = this.color;
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(250 + size.height / 2, -150 + size.width / 2),
+        center: Offset(dx, 0),
         height: size.height,
         width: size.width,
       ),
-      this.angle,
-      pi,
-      false,
+      pi / 2,
+      pi / 2,
+      true,
       paint,
     );
   }

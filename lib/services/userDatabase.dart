@@ -1,9 +1,9 @@
 import '../models/userData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DatabaseService {
+class UserDatabaseService {
   static String uid;
-  DatabaseService();
+  UserDatabaseService();
 
   // collection reference
   final CollectionReference userDataCollection =

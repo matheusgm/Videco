@@ -5,14 +5,12 @@ import 'home.dart';
 import 'models/user.dart';
 import 'package:provider/provider.dart';
 
-import 'services/database.dart';
+import 'services/userDatabase.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  bool perfilVar = false;
-  bool metasVar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Login();
     } else {
-      DatabaseService.uid = user.uid;
+      UserDatabaseService.uid = user.uid;
       return Home();
     }
   }

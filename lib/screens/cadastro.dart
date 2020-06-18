@@ -4,6 +4,8 @@ import 'package:flutterapp/models/userData.dart';
 import 'package:flutterapp/widgetsReutilizados.dart';
 import 'package:flutterapp/services/auth.dart';
 
+import 'loading.dart';
+
 class Cadastro extends StatefulWidget {
   @override
   _CadastroState createState() => _CadastroState();
@@ -11,6 +13,7 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   // text field controller
   final nomeController = TextEditingController();
@@ -20,10 +23,12 @@ class _CadastroState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: WidgetsReutilizados.openAppBar("Videco"),
-      body: _bodyCadastro(),
-    );
+    return loading
+        ? Loading()
+        : Scaffold(
+            appBar: WidgetsReutilizados.openAppBar("Videco"),
+            body: _bodyCadastro(),
+          );
   }
 
   Widget _bodyCadastro() {
@@ -66,6 +71,7 @@ class _CadastroState extends State<Cadastro> {
 
   void sumbitCadastroButton() async {
     if (_formKey.currentState.validate()) {
+      setState(() => loading = true);
       dynamic result = await AuthService().registerWithEmailAndPassword(
           emailController.text.trim(), passwordController.text.trim());
       if (result == null) {
@@ -73,16 +79,17 @@ class _CadastroState extends State<Cadastro> {
       } else {
         UserData userData = UserData(
             nome: nomeController.text,
-            dataNascimento: dataNascimentoController.text,
-            exp: 0);
+            dataNascimento: dataNascimentoController.text);
         await Firestore.instance
             .collection('usuarios')
             .document(result.uid)
             .setData(userData.toJson());
+        Navigator.pop(context);
       }
     } else {
       print("form key erro");
     }
+    setState(() => {loading = false});
   }
 
   Widget _textFormCadastro(
