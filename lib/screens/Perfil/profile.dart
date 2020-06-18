@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/user.dart';
 import 'package:flutterapp/models/userData.dart';
+import 'package:flutterapp/screens/Substituto/substituto.dart';
 import 'package:flutterapp/screens/loading.dart';
 import 'package:flutterapp/services/auth.dart';
 import 'package:flutterapp/services/database.dart';
@@ -9,9 +10,6 @@ import '../../widgetsReutilizados.dart';
 import 'package:flutterapp/screens/Metas/meta.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/screens/Perfil/grafico.dart';
-
-
-
 
 // Criando os dados para o gráfico
 
@@ -43,7 +41,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     WavyHeaderImage(
                         userdata: userData), //metas(context,user.uid,userData),
-                    Text("3"),
+                    Substituto(),
                     profile(user, userData),
                     Text("4"),
                     Text("5")
@@ -138,7 +136,9 @@ class _ProfileState extends State<Profile> {
               ),
               Row(
                 children: <Widget>[
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   GraficoCO2(userData),
                   GraficoAGUA(userData),
                 ],
@@ -163,7 +163,10 @@ class _ProfileState extends State<Profile> {
   Widget textProfile(texto, color, {spacing = 1.0, size = 14.0}) {
     return Text(
       texto,
-      style:Theme.of(context).textTheme.bodyText1.copyWith(fontSize: size,letterSpacing:spacing,color: color),
+      style: Theme.of(context)
+          .textTheme
+          .bodyText1
+          .copyWith(fontSize: size, letterSpacing: spacing, color: color),
     );
   }
 
@@ -178,8 +181,10 @@ class _ProfileState extends State<Profile> {
   Widget tileProfile(title, icon, onClick) {
     return ListTile(
       leading: Icon(icon),
-      title: Text(title,
-      style: Theme.of(context).textTheme.bodyText1,),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
       onTap: onClick,
     );
   }
