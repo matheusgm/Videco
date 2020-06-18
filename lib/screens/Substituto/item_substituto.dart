@@ -3,46 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ItemSubstituto extends StatefulWidget {
-  ItemSubstituto({this.json});
-  final json;
+  ItemSubstituto({this.produto});
+  final produto;
   @override
-  _ItemSubstitutoState createState() => _ItemSubstitutoState(this.json);
+  _ItemSubstitutoState createState() => _ItemSubstitutoState();
 }
 
 class _ItemSubstitutoState extends State<ItemSubstituto> {
-  _ItemSubstitutoState(this.json);
-  var json;
+  var produto;
+  @override
+  void initState() {
+    super.initState();
+    produto = widget.produto;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: Colors.lightGreen[200],
       appBar: AppBar(
-        title: Text(json["nome"]),
+        title: Text(produto["nome"]),
       ),
       body: Column(
         children: <Widget>[
           Container(
             height: 200,
             // color: Colors.purple,
-            child: cardItem(json["img"], json["descricao"]),
+            child:
+                cardItem("banheiro.png", produto["descricao_impacto_negativo"]),
           ),
           Expanded(
             child: ListView.separated(
               //padding: EdgeInsets.all(20.0),
-              itemCount: 10,
+              itemCount: produto["subprodutos"].length,
               separatorBuilder: (context, index) => Divider(height: 0.0),
               itemBuilder: (BuildContext ctxt, int index) {
+                var subprodutos = produto["subprodutos"][index];
                 return Container(
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ExpansionTile(
                     title: Text(
-                      "Titulo",
+                      "${subprodutos["nome"]}",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    subtitle: _subtitleItem(),
+                    subtitle: _subtitleItem(subprodutos),
                     children: <Widget>[
-                      _impactoPositivoItens(json["descricao"])
+                      _impactoPositivoItens(
+                          subprodutos["descricao_impacto_positivo"])
                     ],
                     //backgroundColor: Colors.green[100],
                   ),
@@ -62,12 +70,13 @@ class _ItemSubstitutoState extends State<ItemSubstituto> {
     );
   }
 
-  Widget _subtitleItem() {
+  Widget _subtitleItem(subprodutos) {
     return Row(
       children: <Widget>[
         Column(
           children: <Widget>[
-            ratingBar(Icons.spa, Colors.green[600], 3.0),
+            ratingBar(Icons.spa, Colors.green[600],
+                double.parse(subprodutos["valor_impacto_positivo"].toString())),
             Text(
               "Impacto Positivo",
               style: TextStyle(fontSize: 10, color: Colors.grey),
@@ -77,7 +86,8 @@ class _ItemSubstitutoState extends State<ItemSubstituto> {
         SizedBox(width: 20.0),
         Column(
           children: <Widget>[
-            ratingBar(Icons.attach_money, Colors.yellow[600], 4.5),
+            ratingBar(Icons.attach_money, Colors.yellow[600],
+                double.parse(subprodutos["valor_custo"].toString())),
             Text(
               "Custo",
               style: TextStyle(fontSize: 10, color: Colors.grey),

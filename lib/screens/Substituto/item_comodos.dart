@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import './item_substituto.dart';
 import '../../design/bezier_curves.dart';
@@ -72,11 +73,26 @@ class _ItemComodosState extends State<ItemComodos> {
             height: 10,
           ),
           Expanded(
-            child: ListView.separated(
-              itemCount: 10,
-              separatorBuilder: (BuildContext ctxt, int index) => Divider(),
-              itemBuilder: (BuildContext ctxt, int index) {
-                return _listItemComodo(index);
+            child: FutureBuilder(
+              future: Firestore.instance
+                  .collection("produtos_substitutos")
+                  .where("comodoID", isEqualTo: comodo.documentID)
+                  .orderBy("nome", descending: false)
+                  .getDocuments(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  var produtos = snapshot.data.documents;
+                  return ListView.separated(
+                    itemCount: produtos.length,
+                    separatorBuilder: (BuildContext ctxt, int index) =>
+                        Divider(),
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return _listItemComodo(produtos[index]);
+                    },
+                  );
+                }
               },
             ),
           ),
@@ -85,9 +101,9 @@ class _ItemComodosState extends State<ItemComodos> {
     );
   }
 
-  Widget _listItemComodo(index) {
+  Widget _listItemComodo(produto) {
     return ListTile(
-      title: Text("Titulo"),
+      title: Text("${produto["nome"]}"),
       subtitle: Text("Subtitulo"),
       trailing: Icon(Icons.chevron_right),
       onTap: () {
@@ -95,7 +111,7 @@ class _ItemComodosState extends State<ItemComodos> {
           context,
           MaterialPageRoute(
             builder: (context) => ((ItemSubstituto(
-              json: {"nome": "aa", "img": "banheiro.png", "descricao": "çlala"},
+              produto: produto,
             ))),
           ),
         );

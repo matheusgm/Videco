@@ -16,8 +16,8 @@ class Home extends StatelessWidget {
               Metas(),
               Substituto(),
               Profile(),
-              Text("4"),
-              Text("5"),
+              Container(),
+              Container(),
             ],
           ),
           bottomNavigationBar: TabBar(
