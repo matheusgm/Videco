@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutterapp/screens/Perfil/profile.dart';
 import 'package:flutterapp/models/userData.dart';
-import 'package:flutterapp/screens/Metas/meta.dart';
 
 
 class GraficoN extends StatefulWidget {
@@ -23,8 +21,8 @@ class _GraficoNState extends State<GraficoN> {
   generateData() {
     var pieData = [
       // new Task('p', 50.3, Color(0xff3366cc)),
-      new Task('p', double.parse(data0.exp.toString()) - 200*(levelLocal-1), Colors.lightGreen[700]),
-      new Task('s', 200 + (levelLocal-1) * 200 - double.parse(data0.exp.toString()), Color(0xffdedcdb)),
+      new Task('p', double.parse(data0.exp.toString()) - 200*(data0.level-1), Colors.lightGreen[700]),
+      new Task('s', 200 + (data0.level-1) * 200 - double.parse(data0.exp.toString()), Color(0xffdedcdb)),
     ];
     _seriesPieData.add(charts.Series(
       data: pieData,

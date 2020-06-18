@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './item_substituto.dart';
-
 import 'item_comodos.dart';
 
 class Substituto extends StatefulWidget {
@@ -84,7 +82,7 @@ class _SubstitutoState extends State<Substituto> {
               margin: EdgeInsets.only(right: 5.0, bottom: 5.0),
               // color: Colors.orange,
               child: Image(
-                image: AssetImage('Assets/comodos/$img'),
+                image: AssetImage('assets/comodos/$img'),
                 width: 180,
                 height: 120,
                 alignment: Alignment.bottomRight,

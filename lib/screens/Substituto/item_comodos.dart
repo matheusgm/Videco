@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import './item_substituto.dart';
-
-import 'bezier_curves.dart';
+import '../../design/bezier_curves.dart';
 
 class ItemComodos extends StatefulWidget {
   final comodo;
@@ -51,7 +50,7 @@ class _ItemComodosState extends State<ItemComodos> {
                     //   alignment: Alignment.topRight,
                     // ),
                   ),
-                  clipper: BottomWaveClipper(),
+                  clipper: BottomWaveClipper1(),
                 ),
               ),
               Container(
@@ -60,10 +59,11 @@ class _ItemComodosState extends State<ItemComodos> {
                 child: Text(
                   "${comodo["nome"]}",
                   style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                      letterSpacing: 1.5,),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                    letterSpacing: 1.5,
+                  ),
                 ),
               ),
             ],
