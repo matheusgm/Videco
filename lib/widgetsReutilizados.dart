@@ -7,12 +7,12 @@ class WidgetsReutilizados{
       title: Text(title,
         style: TextStyle(
           fontSize: 24.0,
-          letterSpacing: 2.0,
+          letterSpacing: 5.0,
+          fontFamily: 'Poppins',
         ),
       ),
       centerTitle: true,
       elevation: 0.0,
     );
   }
-
 }

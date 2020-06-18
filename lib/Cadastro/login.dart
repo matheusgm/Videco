@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/screens/home/cadastro.dart';
-import 'package:flutterapp/screens/home/character.dart';
+import 'package:flutterapp/Cadastro/cadastro.dart';
+import 'package:flutterapp/Cadastro/character.dart';
 import 'package:flutterapp/services/auth.dart';
-import '../../widgetsReutilizados.dart';
-import '../loading.dart';
+import 'package:flutterapp/widgetsReutilizados.dart';
+import 'package:flutterapp/screens/loading.dart';
 
 class Login extends StatefulWidget {
   @override

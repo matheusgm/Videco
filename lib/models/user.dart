@@ -1,6 +1,12 @@
 class User {
   String uid;
   String email;
+  int exp;
+  int level;
+  int diasMeta1;
+  int diasMeta2;
+  int diasMeta3;
+  int diasMeta4;
 
   User({this.uid, this.email});
 

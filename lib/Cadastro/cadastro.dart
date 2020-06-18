@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/userData.dart';
-import '../../widgetsReutilizados.dart';
-import './../../services/auth.dart';
+import 'package:flutterapp/widgetsReutilizados.dart';
+import 'package:flutterapp/services/auth.dart';
+import 'package:flutterapp/models/user.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -74,7 +75,8 @@ class _CadastroState extends State<Cadastro> {
       } else {
         UserData userData = UserData(
             nome: nomeController.text,
-            dataNascimento: dataNascimentoController.text);
+            dataNascimento: dataNascimentoController.text,
+            exp: 0);
         await Firestore.instance
             .collection('usuarios')
             .document(result.uid)

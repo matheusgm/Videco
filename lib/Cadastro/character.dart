@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgetsReutilizados.dart';
+import 'package:flutterapp/widgetsReutilizados.dart';
 
 class Character extends StatefulWidget {
   @override
