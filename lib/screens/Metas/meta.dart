@@ -7,21 +7,16 @@ import 'package:flutterapp/screens/Metas/Lista.dart';
 import '../../design/bezier_curves.dart';
 import '../../design/arcPainter.dart';
 
-int multiplier = 1;
-int day = 1;
-int weekN = 0;
-int monthN = 0;
-bool week = false;
-bool month = false;
-int expLocal = 0;
-int levelLocal = 1;
-
 class Metas extends StatefulWidget {
   @override
   _MetasState createState() => _MetasState();
 }
 
 class _MetasState extends State<Metas> {
+  int multiplier = 1;
+  int day = 1;
+  int expLocal = 0;
+  int levelLocal = 1;
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -29,9 +24,10 @@ class _MetasState extends State<Metas> {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color(0xff4ac3bb), Color(0xffffffff)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter),
+              colors: [Color(0xff4ac3bb), Color(0xffffffff)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
           child: Stack(
             children: <Widget>[
@@ -70,69 +66,63 @@ class _MetasState extends State<Metas> {
       clipper: BottomWaveClipper2(),
     );
   }
-}
 
 // Botão da meta
-Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
-  void nivel() {
-    expLocal += 5 * multiplier * bonus;
-    if (expLocal >= 200 + (levelLocal - 1) * 200) {
-      levelLocal += 1;
+  Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
+    void nivel() {
+      expLocal += 5 * multiplier * bonus;
+      if (expLocal >= 200 + (levelLocal - 1) * 200) {
+        levelLocal += 1;
+      }
+      userdata.exp = expLocal;
+      userdata.level = levelLocal;
+      UserDatabaseService().updateUserData(userdata);
+      day += 1;
     }
-    userdata.exp = expLocal;
-    userdata.level = levelLocal;
-    UserDatabaseService().updateUserData(userdata);
-    day += 1;
-  }
 
-  return FadeIn(
-    tempo,
-    Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.transparent,
-            spreadRadius: 10,
-            blurRadius: 10,
-            offset: Offset(0, 3), // changes position of shadow
+    return FadeIn(
+      tempo,
+      Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.transparent,
+              spreadRadius: 10,
+              blurRadius: 10,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        margin: EdgeInsets.all(4.0),
+        height: 80.0,
+        width: 370.0,
+        child: OutlineButton(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          onPressed: () async {
+            multiplier += 1;
+            print('Inicio $day');
+            nivel();
+            print('Após $day');
+          },
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: ListTile(
+            title: Text(
+              text,
+              style: TextStyle(
+                  color: Colors.lightGreen[900],
+                  fontSize: 14.0,
+                  letterSpacing: 2.0),
+            ),
+            subtitle: Text(
+              '${5 * multiplier * bonus} de experiência',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            leading: Icon(Icons.delete),
+            trailing: Icon(Icons.check),
           ),
-        ],
-      ),
-      margin: EdgeInsets.all(4.0),
-      height: 80.0,
-      width: 370.0,
-      child: OutlineButton(
-        borderSide: BorderSide(color: Theme.of(context).primaryColor),
-        onPressed: () async {
-          day == 7 ? week = !week : Container();
-          day % 7 == 0 ? weekN += 1 : Container();
-          day == 30 ? month = !month : Container();
-          day % 30 == 0 ? monthN += 1 : Container();
-          multiplier += 1;
-          print('Inicio $day');
-          nivel();
-          print('Após $day');
-        },
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        child: ListTile(
-          title: Text(
-            text,
-            style: TextStyle(
-                color: Colors.lightGreen[900],
-                fontSize: 14.0,
-                letterSpacing: 2.0),
-          ),
-          subtitle: Text(
-            '${5 * multiplier * bonus} de experiência',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          leading: Icon(Icons.delete),
-          trailing: Icon(Icons.check),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
-
-
