@@ -35,10 +35,9 @@ class MetaUsuarioDatabaseService {
   // get brews stream
   Stream<List<MetaUsuario>> get metaUsuario {
     return metaUsuarioCollection
+        .where("userId", isEqualTo: UserDatabaseService.uid)
         .orderBy("metaId", descending: false)
         .snapshots()
         .map(_metaUsuarioListFromSnapshot);
   }
-
-  
 }

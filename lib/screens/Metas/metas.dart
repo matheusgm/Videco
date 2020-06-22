@@ -46,38 +46,38 @@ class _MetasState extends State<Metas> {
                       return StreamBuilder<List<MetaUsuario>>(
                           stream: MetaUsuarioDatabaseService().metaUsuario,
                           builder: (context, snapshotMetaUsuario) {
+                            List<MetaUsuario> metasUsuario;
                             if (snapshotMetaUsuario.hasData) {
-                              List<Meta> metas = snapshotMeta.data;
-                              List<MetaUsuario> metasUsuario =
-                                  snapshotMetaUsuario.data;
+                              metasUsuario = snapshotMetaUsuario.data;
+                            } else {
+                              metasUsuario = new List<MetaUsuario>();
+                            }
+                            List<Meta> metas = snapshotMeta.data;
 
-                              bool existeMeta;
-                              for (Meta m in metas) {
-                                existeMeta = false;
-                                for (MetaUsuario mu in metasUsuario) {
-                                  if (m.id == mu.metaID) {
-                                    mu.meta = m;
-                                    existeMeta = true;
-                                    break;
-                                  }
-                                }
-                                if (!existeMeta) {
-                                  metasUsuario.add(MetaUsuario(
-                                      metaID: m.id,
-                                      userID: UserDatabaseService.uid,
-                                      meta: m));
+                            bool existeMeta;
+                            for (Meta m in metas) {
+                              existeMeta = false;
+                              for (MetaUsuario mu in metasUsuario) {
+                                if (m.id == mu.metaID) {
+                                  mu.meta = m;
+                                  existeMeta = true;
+                                  break;
                                 }
                               }
-                              return ListView.builder(
-                                itemCount: metas.length,
-                                itemBuilder: (context, index) {
-                                  return selecionarMeta(
-                                      metasUsuario[index], context, 1.0);
-                                },
-                              );
-                            } else {
-                              return Center(child: CircularProgressIndicator());
+                              if (!existeMeta) {
+                                metasUsuario.add(MetaUsuario(
+                                    metaID: m.id,
+                                    userID: UserDatabaseService.uid,
+                                    meta: m));
+                              }
                             }
+                            return ListView.builder(
+                              itemCount: metas.length,
+                              itemBuilder: (context, index) {
+                                return selecionarMeta(
+                                    metasUsuario[index], context, 1.0);
+                              },
+                            );
                           });
                     } else {
                       return Center(child: CircularProgressIndicator());
