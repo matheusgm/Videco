@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/Perfil/profile.dart';
-import 'screens/Metas/meta.dart';
+import 'screens/Metas/metas.dart';
 import 'screens/Substituto/substituto.dart';
 
 class Home extends StatelessWidget {
