@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/meta.dart';
@@ -10,6 +9,9 @@ import 'package:flutterapp/services/metaUsuarioDatabase.dart';
 import 'package:flutterapp/services/userDatabase.dart';
 import '../../design/bezier_curves.dart';
 import '../../design/arcPainter.dart';
+import 'package:intl/intl.dart';
+
+import '../../util.dart';
 
 class Metas extends StatefulWidget {
   @override
@@ -46,13 +48,21 @@ class _MetasState extends State<Metas> {
                       return StreamBuilder<List<MetaUsuario>>(
                           stream: MetaUsuarioDatabaseService().metaUsuario,
                           builder: (context, snapshotMetaUsuario) {
+                            List<Meta> metas = snapshotMeta.data;
                             List<MetaUsuario> metasUsuario;
                             if (snapshotMetaUsuario.hasData) {
                               metasUsuario = snapshotMetaUsuario.data;
                             } else {
                               metasUsuario = new List<MetaUsuario>();
                             }
-                            List<Meta> metas = snapshotMeta.data;
+
+                            // var now = new DateTime.now();
+                            // var formatter = new DateFormat('yyyy-MM-dd HH:mm:ss');
+                            // String formatted = formatter.format(now);
+                            // print(formatted.toString());
+
+                            List<MetaUsuario> listaExibir =
+                                new List<MetaUsuario>();
 
                             bool existeMeta;
                             for (Meta m in metas) {
@@ -60,22 +70,26 @@ class _MetasState extends State<Metas> {
                               for (MetaUsuario mu in metasUsuario) {
                                 if (m.id == mu.metaID) {
                                   mu.meta = m;
+                                  if (m.limite == -1 ||
+                                      mu.qntAtual < m.limite) {
+                                    listaExibir.add(mu);
+                                  }
                                   existeMeta = true;
                                   break;
                                 }
                               }
                               if (!existeMeta) {
-                                metasUsuario.add(MetaUsuario(
+                                listaExibir.add(MetaUsuario(
                                     metaID: m.id,
                                     userID: UserDatabaseService.uid,
                                     meta: m));
                               }
                             }
                             return ListView.builder(
-                              itemCount: metas.length,
+                              itemCount: listaExibir.length,
                               itemBuilder: (context, index) {
                                 return selecionarMeta(
-                                    metasUsuario[index], context, 1.0);
+                                    listaExibir[index], context, 1.0);
                               },
                             );
                           });
@@ -110,6 +124,7 @@ class _MetasState extends State<Metas> {
       if (metaUsuario.id == null) {
         MetaUsuarioDatabaseService().metaUsuarioCreate(metaUsuario);
       } else {
+        metaUsuario.dataHoraModificacao = getDateTimeNow();
         MetaUsuarioDatabaseService().metaUsuarioUpdate(metaUsuario);
       }
       UserDatabaseService().updateUserData(userData);
@@ -148,7 +163,8 @@ class _MetasState extends State<Metas> {
                   letterSpacing: 1.0),
             ),
             subtitle: Text(
-              '${metaUsuario.qntAtual} dia (recorde: ${metaUsuario.qntTotal} dias) - ${metaUsuario.meta.exp} exp',
+              '${metaUsuario.qntAtual} dia(s) - ${metaUsuario.meta.exp} exp',
+              //'${metaUsuario.qntAtual} dia (recorde: ${metaUsuario.qntTotal} dias) - ${metaUsuario.meta.exp} exp',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             //leading: Icon(Icons.delete),

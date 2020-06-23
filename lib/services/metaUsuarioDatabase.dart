@@ -28,7 +28,9 @@ class MetaUsuarioDatabaseService {
           userID: doc.data['userId'] ?? '',
           metaID: doc.data['metaId'] ?? '',
           qntAtual: doc.data['quantidade_atual'] ?? 0,
-          qntTotal: doc.data['quantidade_total'] ?? 0);
+          qntTotal: doc.data['quantidade_total'] ?? 0,
+          dataHoraCriacao: doc.data['dataHoraCriacao'],
+          dataHoraModificacao: doc.data['dataHoraModificacao']);
     }).toList();
   }
 

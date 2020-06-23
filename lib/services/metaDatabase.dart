@@ -1,6 +1,5 @@
 import 'package:flutterapp/models/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterapp/models/userData.dart';
 
 class MetaDatabaseService {
   MetaDatabaseService();
@@ -16,7 +15,8 @@ class MetaDatabaseService {
           id: doc.documentID,
           nome: doc.data['nome'] ?? '',
           exp: doc.data['exp'] ?? 0,
-          descricao: doc.data['descricao'] ?? '');
+          descricao: doc.data['descricao'] ?? '',
+          limite: doc.data['limite'] ?? -1);
     }).toList();
   }
 
@@ -24,5 +24,4 @@ class MetaDatabaseService {
   Stream<List<Meta>> get meta {
     return metaCollection.snapshots().map(_metaListFromSnapshot);
   }
-
 }
