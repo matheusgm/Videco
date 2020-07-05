@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/Perfil/profile.dart';
 import 'screens/Metas/meta.dart';
 import 'screens/Substituto/substituto.dart';
+import 'package:flutterapp/screens/Lugares/homeLugares.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class Home extends StatelessWidget {
               Substituto(),
               Profile(),
               Text("4"),
-              Text("5"),
+              MyHomePage(),
             ],
           ),
           bottomNavigationBar: TabBar(
@@ -26,7 +27,7 @@ class Home extends StatelessWidget {
               Tab(icon: Icon(Icons.autorenew)),
               Tab(icon: Icon(Icons.person)),
               Tab(icon: Icon(Icons.store)),
-              Tab(icon: Icon(Icons.settings)),
+              Tab(icon: Icon(Icons.map)),
             ],
             labelColor: Colors.black,
             unselectedLabelColor: Colors.white,

@@ -4,6 +4,8 @@ import 'package:flutterapp/services/auth.dart';
 import 'package:flutterapp/services/userDatabase.dart';
 import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/screens/Perfil/grafico.dart';
+import '../../design/bezier_curves.dart';
+
 
 // Criando os dados para o gráfico
 
@@ -20,8 +22,11 @@ class _ProfileState extends State<Profile> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
-          return Scaffold(
-            body: _bodyProfile(userData),
+          return ClipPath(
+                      child: Scaffold(
+              body: _bodyProfile(userData),
+            ),
+            clipper: BottomWaveClipper2(),
           );
         } else {
           return Center(child: CircularProgressIndicator());
@@ -31,7 +36,9 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _bodyProfile(UserData userData) {
-    return ListView(
+    return Stack(
+        children: <Widget>[
+    ListView(
       padding: EdgeInsets.all(20.0),
       children: <Widget>[
         Column(
@@ -41,11 +48,9 @@ class _ProfileState extends State<Profile> {
               Center(
                 child: Text(
                   'Perfil',
-                  style: TextStyle(
-                    fontSize: 38.0,
-                    letterSpacing: 2.0,
-                    color: Colors.lightGreen[700],
-                  ),
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontSize: 38.0,
+                      letterSpacing: 2.0,),
                 ),
               ),
             ),
@@ -72,40 +77,79 @@ class _ProfileState extends State<Profile> {
                     SizedBox(height: 30.0),
                   ],
                 ),
-                SizedBox(height: 50, width: 70),
-                Column(
-                  children: <Widget>[
-                    Text('Até o próximo nível'),
-                    GraficoN(userData),
-                  ],
-                ),
+                SizedBox(height: 50, width: 30),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text("Volume de CO2 salvo"),
-                Text("Água salva"),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 20),
-                GraficoCO2(userData),
-                GraficoAGUA(userData),
-              ],
-            ),
-            Center(
-              child: RaisedButton(
-                child: Text("Logout"),
-                onPressed: () async {
-                  await AuthService().signOut();
-                },
-              ),
-            )
           ],
         ),
       ],
+    ),
+    _caixa(userData),
+    _bolinhas()
+        ],
+      );
+  }
+
+  Widget _subbolinhas() {
+    return Container(
+        height: 7,
+        width: 7,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          shape: BoxShape.circle,
+        ));
+  }
+
+  Widget _bolinhas() {
+    double _screenHeigth = MediaQuery.of(context).size.height;
+    return Positioned(
+        top: _screenHeigth * 0.73,
+        left: _screenHeigth * 0.319,
+        child: Row(
+          children: <Widget>[
+            _subbolinhas(),
+            SizedBox(
+              width: 4,
+            ),
+            _subbolinhas(),
+            SizedBox(
+              width: 4,
+            ),
+            _subbolinhas()
+          ],
+        ));
+  }
+
+  Widget _subcaixa(entrada) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Theme.of(context).primaryColor.withOpacity(0.5),
+        ),
+        height: 200.0,
+        width: 190.0,
+        child: entrada,
+      ),
+    );
+  }
+
+  Widget _caixa(userdata) {
+    double _screenHeigth = MediaQuery.of(context).size.height;
+    return Positioned(
+      height: _screenHeigth * 0.27,
+      top: _screenHeigth * 0.45,
+      left: _screenHeigth * 0.19,
+      right: _screenHeigth * 0.04,
+      child: PageView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          _subcaixa(GraficoN(userdata)),
+          _subcaixa(GraficoCO2(userdata)),
+          _subcaixa(GraficoAGUA(userdata))
+        ],
+      ),
     );
   }
 
@@ -136,7 +180,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget textInfoProfile(texto) {
-    return textProfile(texto, Colors.green, spacing: 2.0, size: 28.0);
+    return textProfile(texto, Color(0xff76b041), spacing: 2.0, size: 28.0);
   }
 
   Widget tileProfile(title, icon, onClick) {

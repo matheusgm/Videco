@@ -24,49 +24,66 @@ class Metas extends StatefulWidget {
 class _MetasState extends State<Metas> {
   @override
   Widget build(BuildContext context) {
+    double _screenHeight = MediaQuery.of(context).size.height;
     return ClipPath(
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xff4ac3bb), Color(0xffffffff)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter),
-          ),
-          child: Stack(
-            children: <Widget>[
-              MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
-              Container(
-                margin: EdgeInsets.only(top: 220),
-                child: StreamBuilder<UserData>(
-                  stream: UserDatabaseService().userData,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      UserData userData = snapshot.data;
-                      expLocal = userData.exp;
-                      levelLocal = userData.level;
-                      return ListView(
-                        children: <Widget>[
-                          selecionarMeta(listaMetas[0] + '$day', context, 1.0,
-                              userData, 1),
-                          selecionarMeta(listaMetas[1] + '$day', context, 1.0,
-                              userData, 1),
-                          selecionarMeta(listaMetas[2] + '$day', context, 1.0,
-                              userData, 1),
-                          selecionarMeta(listaMetas[3] + '$day', context, 1.0,
-                              userData, 1),
-                        ],
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
+          body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0xff4ac3bb), Color(0xffffffff)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
+            ),
+            child: Stack(
+              children: <Widget>[
+                MyArc(diameter: 300, angle: 0, color: Color(0xffc3c14a)),
+                Container(
+                  margin: EdgeInsets.only(top: 220),
+                  child: StreamBuilder<UserData>(
+                    stream: UserDatabaseService().userData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        UserData userData = snapshot.data;
+                        expLocal = userData.exp;
+                        levelLocal = userData.level;
+                        return ListView(
+                          children: <Widget>[
+                            selecionarMeta(listaMetas[0] + '$day', context, 1.0,
+                                userData, 1),
+                            selecionarMeta(listaMetas[1] + '$day', context, 1.0,
+                                userData, 1),
+                            selecionarMeta(listaMetas[2] + '$day', context, 1.0,
+                                userData, 1),
+                            selecionarMeta(listaMetas[3] + '$day', context, 1.0,
+                                userData, 1),
+                          ],
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+          Positioned(
+              top: _screenHeight * 0.09,
+              height: _screenHeight * 0.12,
+              left: _screenHeight * 0.08,
+              right: _screenHeight * 0.02,
+              child: Text(
+                'Metas',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: 36,
+                    color: Color(0xffffffff)),
+              )),
+        ],
+      )),
       clipper: BottomWaveClipper2(),
     );
   }
@@ -134,5 +151,3 @@ Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
     ),
   );
 }
-
-
