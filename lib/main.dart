@@ -19,11 +19,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         home: Wrapper(),
         theme: ThemeData(
-          primaryColor: Colors.lightGreen[700],
+          primaryColor: Color(0xff76b041),
           fontFamily: 'Poppins',
           textTheme: TextTheme(
             bodyText1:
                 TextStyle(fontWeight: FontWeight.w500, color: Colors.grey[700]),
+                bodyText2:
+                TextStyle(fontWeight: FontWeight.w500, color: Color(0xff76b041))
           ),
           backgroundColor: Colors.grey[300],
         ),

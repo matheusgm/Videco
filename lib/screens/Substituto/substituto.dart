@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'item_comodos.dart';
+import '../../design/bezier_curves.dart';
 
 class Substituto extends StatefulWidget {
   @override
@@ -33,41 +34,48 @@ class _SubstitutoState extends State<Substituto> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Substituto"),
+    return ClipPath(
+          child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Text("Substituto",
+          style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize:30,color:Color(0xff76b060)),
+        ),),
+        body: GridView.count(
+          crossAxisCount: 2,
+          children: List.generate(comodos.length, (index) {
+            return Card(
+              margin: EdgeInsets.all(10),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              //color: Colors.grey[300],
+              child: InkResponse(
+                child: _cardComodo(comodos[index]["nome"], comodos[index]["img"]),
+                onTap: () {
+                  //print(index);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ((ItemComodos(comodo: comodos[index]))),
+                    ),
+                  );
+                },
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                // side: BorderSide(
+                //   width: 5,
+                //   color: json[index]["ja_tem"] ? Colors.green : Colors.red,
+                // ),
+              ),
+              elevation: 5,
+            );
+          }),
+        ),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(comodos.length, (index) {
-          return Card(
-            margin: EdgeInsets.all(10),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            //color: Colors.grey[300],
-            child: InkResponse(
-              child: _cardComodo(comodos[index]["nome"], comodos[index]["img"]),
-              onTap: () {
-                //print(index);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ((ItemComodos(comodo: comodos[index]))),
-                  ),
-                );
-              },
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              // side: BorderSide(
-              //   width: 5,
-              //   color: json[index]["ja_tem"] ? Colors.green : Colors.red,
-              // ),
-            ),
-            elevation: 5,
-          );
-        }),
-      ),
+      clipper: BottomWaveClipper2(),
     );
   }
 
@@ -107,7 +115,7 @@ class _SubstitutoState extends State<Substituto> {
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.lightGreen, Colors.green]),
+            colors: [Color(0xff298acd), Color(0xff598acd)]),
       ),
     );
   }

@@ -42,8 +42,8 @@ class _GraficoNState extends State<GraficoN> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
-      width: 160,
+      height: 100,
+      width: 100,
       child: charts.PieChart(
         _seriesPieData,
         animate: true,
