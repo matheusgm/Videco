@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/Perfil/profile.dart';
-import 'screens/Metas/meta.dart';
+import 'screens/Metas/metas.dart';
 import 'screens/Substituto/substituto.dart';
 import 'package:flutterapp/screens/Lugares/homeLugares.dart';
 
@@ -17,8 +17,13 @@ class Home extends StatelessWidget {
               Metas(),
               Substituto(),
               Profile(),
+<<<<<<< HEAD
               Text("4"),
               MyHomePage(),
+=======
+              Container(),
+              Container(),
+>>>>>>> matheus
             ],
           ),
           bottomNavigationBar: TabBar(
