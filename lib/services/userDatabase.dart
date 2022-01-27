@@ -7,10 +7,10 @@ class UserDatabaseService {
 
   // collection reference
   final CollectionReference userDataCollection =
-      Firestore.instance.collection('usuarios');
+      FirebaseFirestore.instance.collection('usuarios');
 
   Future<void> updateUserData(UserData userData) async {
-    return await userDataCollection.document(uid).setData(userData.toJson());
+    return await userDataCollection.doc(uid).set(userData.toJson());
   }
 
   UserData _newUserData(data) {
@@ -29,14 +29,11 @@ class UserDatabaseService {
 
   // get user doc stream
   Stream<UserData> get userData {
-    return userDataCollection
-        .document(uid)
-        .snapshots()
-        .map(_userDataFromSnapshot);
+    return userDataCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 
   Future<UserData> getUserData() async {
-    var data = await userDataCollection.document(uid).get();
+    var data = await userDataCollection.doc(uid).get();
     return _newUserData(data.data);
   }
 }

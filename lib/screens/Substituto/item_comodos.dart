@@ -74,11 +74,11 @@ class _ItemComodosState extends State<ItemComodos> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: Firestore.instance
+              future: FirebaseFirestore.instance
                   .collection("produtos_substitutos")
                   .where("comodoID", isEqualTo: comodo.documentID)
                   .orderBy("nome", descending: false)
-                  .getDocuments(),
+                  .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());

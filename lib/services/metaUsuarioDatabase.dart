@@ -8,29 +8,29 @@ class MetaUsuarioDatabaseService {
 
   // collection reference
   final CollectionReference metaUsuarioCollection =
-      Firestore.instance.collection('metas_usuarios');
+      FirebaseFirestore.instance.collection('metas_usuarios');
 
   Future<void> metaUsuarioCreate(MetaUsuario metaUsuario) async {
-    return await metaUsuarioCollection.document().setData(metaUsuario.toJson());
+    return await metaUsuarioCollection.doc().set(metaUsuario.toJson());
   }
 
   Future<void> metaUsuarioUpdate(MetaUsuario metaUsuario) async {
     return await metaUsuarioCollection
-        .document(metaUsuario.id)
-        .setData(metaUsuario.toJson());
+        .doc(metaUsuario.id)
+        .set(metaUsuario.toJson());
   }
 
   // brew list from snapshot
   List<MetaUsuario> _metaUsuarioListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return MetaUsuario(
-          id: doc.documentID,
-          userID: doc.data['userId'] ?? '',
-          metaID: doc.data['metaId'] ?? '',
-          qntAtual: doc.data['quantidade_atual'] ?? 0,
-          qntTotal: doc.data['quantidade_total'] ?? 0,
-          dataHoraCriacao: doc.data['dataHoraCriacao'],
-          dataHoraModificacao: doc.data['dataHoraModificacao']);
+          id: doc.id,
+          userID: doc['userId'] ?? '',
+          metaID: doc['metaId'] ?? '',
+          qntAtual: doc['quantidade_atual'] ?? 0,
+          qntTotal: doc['quantidade_total'] ?? 0,
+          dataHoraCriacao: doc['dataHoraCriacao'],
+          dataHoraModificacao: doc['dataHoraModificacao']);
     }).toList();
   }
 

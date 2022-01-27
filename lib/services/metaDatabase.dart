@@ -6,17 +6,17 @@ class MetaDatabaseService {
 
   // collection reference
   final CollectionReference metaCollection =
-      Firestore.instance.collection('metas');
+      FirebaseFirestore.instance.collection('metas');
 
   // brew list from snapshot
   List<Meta> _metaListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return Meta(
-          id: doc.documentID,
-          nome: doc.data['nome'] ?? '',
-          exp: doc.data['exp'] ?? 0,
-          descricao: doc.data['descricao'] ?? '',
-          limite: doc.data['limite'] ?? -1);
+          id: doc.id,
+          nome: doc['nome'] ?? '',
+          exp: doc['exp'] ?? 0,
+          descricao: doc['descricao'] ?? '',
+          limite: doc['limite'] ?? -1);
     }).toList();
   }
 

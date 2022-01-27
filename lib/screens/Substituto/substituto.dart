@@ -17,7 +17,10 @@ class _SubstitutoState extends State<Substituto> {
         title: Text("Substituto"),
       ),
       body: FutureBuilder(
-        future: Firestore.instance.collection("comodos").orderBy("nome",descending: false).getDocuments(),
+        future: FirebaseFirestore.instance
+            .collection("comodos")
+            .orderBy("nome", descending: false)
+            .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());

@@ -99,10 +99,10 @@ class _CadastroState extends State<Cadastro> {
         UserData userData = UserData(
             nome: nomeController.text,
             dataNascimento: dataNascimentoController.text);
-        await Firestore.instance
+        await FirebaseFirestore.instance
             .collection('usuarios')
-            .document(result.uid)
-            .setData(userData.toJson());
+            .doc(result.uid)
+            .set(userData.toJson());
         Navigator.pop(context);
       }
     } else {
