@@ -25,7 +25,7 @@ class _SubstitutoState extends State<Substituto> {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           } else {
-            var comodos = snapshot.data.documents;
+            var comodos = snapshot.data.docs;
             return GridView.count(
               crossAxisCount: 2,
               children: List.generate(

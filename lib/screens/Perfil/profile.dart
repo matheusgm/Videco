@@ -6,7 +6,6 @@ import 'package:flutterapp/screens/Perfil/fade.dart';
 import 'package:flutterapp/screens/Perfil/grafico.dart';
 import '../../design/bezier_curves.dart';
 
-
 // Criando os dados para o gráfico
 
 class Profile extends StatefulWidget {
@@ -22,14 +21,26 @@ class _ProfileState extends State<Profile> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
+          UserData ud = new UserData();
+          ud.nome = "Matheus";
+          ud.dataNascimento = "01061997";
+          ud.exp = 80;
+          ud.level = 4;
+
           return ClipPath(
-                      child: Scaffold(
-              body: _bodyProfile(userData),
+            child: Scaffold(
+              body: _bodyProfile(ud),
             ),
             clipper: BottomWaveClipper2(),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          UserData ud = new UserData();
+          ud.nome = "Matheus";
+          ud.dataNascimento = "01061997";
+          ud.exp = 80;
+          ud.level = 4;
+          return _bodyProfile(ud);
+          // return Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -37,57 +48,58 @@ class _ProfileState extends State<Profile> {
 
   Widget _bodyProfile(UserData userData) {
     return Stack(
-        children: <Widget>[
-    ListView(
-      padding: EdgeInsets.all(20.0),
       children: <Widget>[
-        Column(
+        ListView(
+          padding: EdgeInsets.all(20.0),
           children: <Widget>[
-            FadeIn(
-              1,
-              Center(
-                child: Text(
-                  'Perfil',
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      fontSize: 38.0,
-                      letterSpacing: 2.0,),
-                ),
-              ),
-            ),
-            SizedBox(height: 30.0),
-            _circleAvatar(),
-            Divider(height: 60.0, color: Colors.grey[900]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            Column(
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // FadeIn(
+                //   1,
+                Center(
+                  child: Text(
+                    'Perfil',
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          fontSize: 38.0,
+                          letterSpacing: 2.0,
+                        ),
+                  ),
+                ),
+                // ),
+                SizedBox(height: 30.0),
+                _circleAvatar(),
+                Divider(height: 60.0, color: Colors.grey[900]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    textTituloProfile('NOME'),
-                    SizedBox(height: 10.0),
-                    textInfoProfile(userData.nome),
-                    SizedBox(height: 30.0),
-                    textTituloProfile('NÍVEL'),
-                    SizedBox(height: 10.0),
-                    textInfoProfile(userData.level.toString()),
-                    SizedBox(height: 30.0),
-                    textTituloProfile('EXPERIÊNCIA'),
-                    SizedBox(height: 10.0),
-                    textInfoProfile(userData.exp.toString()),
-                    SizedBox(height: 30.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        textTituloProfile('NOME'),
+                        SizedBox(height: 10.0),
+                        textInfoProfile(userData.nome),
+                        SizedBox(height: 30.0),
+                        textTituloProfile('NÍVEL'),
+                        SizedBox(height: 10.0),
+                        textInfoProfile(userData.level.toString()),
+                        SizedBox(height: 30.0),
+                        textTituloProfile('EXPERIÊNCIA'),
+                        SizedBox(height: 10.0),
+                        textInfoProfile(userData.exp.toString()),
+                        SizedBox(height: 30.0),
+                      ],
+                    ),
+                    SizedBox(height: 50, width: 30),
                   ],
                 ),
-                SizedBox(height: 50, width: 30),
               ],
             ),
           ],
         ),
+        _caixa(userData),
+        _bolinhas()
       ],
-    ),
-    _caixa(userData),
-    _bolinhas()
-        ],
-      );
+    );
   }
 
   Widget _subbolinhas() {
@@ -154,15 +166,16 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _circleAvatar() {
-    return FadeIn(
-      2,
-      Center(
-        child: CircleAvatar(
-          backgroundImage: AssetImage('assets/Perfil.jpeg'),
-          radius: 70.0,
-        ),
+    return
+        // FadeIn(
+        //   2,
+        Center(
+      child: CircleAvatar(
+        backgroundImage: AssetImage('assets/Perfil.jpeg'),
+        radius: 70.0,
       ),
     );
+    // );
   }
 
   Widget textProfile(texto, color, {spacing = 1.0, size = 14.0}) {
@@ -180,7 +193,8 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget textInfoProfile(texto) {
-    return textProfile(texto, Color(0xff76b041), spacing: 2.0, size: 28.0);
+    return textProfile(texto, Color.fromRGBO(0, 0, 0, 0.8),
+        spacing: 2.0, size: 28.0);
   }
 
   Widget tileProfile(title, icon, onClick) {

@@ -79,8 +79,7 @@ class _MetasState extends State<Metas> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: 36,
-                    color: Color(0xffffffff)),
+                    .copyWith(fontSize: 36, color: Color(0xffffffff)),
               )),
         ],
       )),
@@ -102,52 +101,52 @@ Widget selecionarMeta(text, context, tempo, UserData userdata, bonus) {
     day += 1;
   }
 
-  return FadeIn(
-    tempo,
-    Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.transparent,
-            spreadRadius: 10,
-            blurRadius: 10,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      margin: EdgeInsets.all(4.0),
-      height: 80.0,
-      width: 370.0,
-      child: OutlineButton(
-        borderSide: BorderSide(color: Theme.of(context).primaryColor),
-        onPressed: () async {
-          day == 7 ? week = !week : Container();
-          day % 7 == 0 ? weekN += 1 : Container();
-          day == 30 ? month = !month : Container();
-          day % 30 == 0 ? monthN += 1 : Container();
-          multiplier += 1;
-          print('Inicio $day');
-          nivel();
-          print('Após $day');
-        },
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        child: ListTile(
-          title: Text(
-            text,
-            style: TextStyle(
-                color: Colors.lightGreen[900],
-                fontSize: 14.0,
-                letterSpacing: 2.0),
-          ),
-          subtitle: Text(
-            '${5 * multiplier * bonus} de experiência',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          leading: Icon(Icons.delete),
-          trailing: Icon(Icons.check),
+  return
+      // FadeIn(
+      //   tempo,
+      Container(
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.transparent,
+          spreadRadius: 10,
+          blurRadius: 10,
+          offset: Offset(0, 3), // changes position of shadow
         ),
+      ],
+    ),
+    margin: EdgeInsets.all(4.0),
+    height: 80.0,
+    width: 370.0,
+    child: OutlineButton(
+      borderSide: BorderSide(color: Theme.of(context).primaryColor),
+      onPressed: () async {
+        day == 7 ? week = !week : Container();
+        day % 7 == 0 ? weekN += 1 : Container();
+        day == 30 ? month = !month : Container();
+        day % 30 == 0 ? monthN += 1 : Container();
+        multiplier += 1;
+        print('Inicio $day');
+        nivel();
+        print('Após $day');
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      child: ListTile(
+        title: Text(
+          text,
+          style: TextStyle(
+              color: Colors.lightGreen[900],
+              fontSize: 14.0,
+              letterSpacing: 2.0),
+        ),
+        subtitle: Text(
+          '${5 * multiplier * bonus} de experiência',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        leading: Icon(Icons.delete),
+        trailing: Icon(Icons.check),
       ),
     ),
   );
+  // );
 }

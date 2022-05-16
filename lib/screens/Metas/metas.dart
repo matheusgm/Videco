@@ -130,48 +130,49 @@ class _MetasState extends State<Metas> {
       UserDatabaseService().updateUserData(userData);
     }
 
-    return FadeIn(
-      tempoFadeIn,
-      Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.transparent,
-              spreadRadius: 10,
-              blurRadius: 10,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        margin: EdgeInsets.all(4.0),
-        child: OutlineButton(
-          borderSide: BorderSide(color: Theme.of(context).primaryColor),
-          onPressed: () async {
-            // multiplier += 1;
-            // print('Inicio $day');
-            realizouMeta();
-            // print('Após $day');
-          },
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          child: ListTile(
-            title: Text(
-              metaUsuario.meta.nome,
-              style: TextStyle(
-                  color: Colors.lightGreen[900],
-                  fontSize: 14.0,
-                  letterSpacing: 1.0),
-            ),
-            subtitle: Text(
-              '${metaUsuario.qntAtual} dia(s) - ${metaUsuario.meta.exp} exp',
-              //'${metaUsuario.qntAtual} dia (recorde: ${metaUsuario.qntTotal} dias) - ${metaUsuario.meta.exp} exp',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            //leading: Icon(Icons.delete),
-            trailing: Icon(Icons.check),
+    return
+        // FadeIn(
+        //   tempoFadeIn,
+        Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.transparent,
+            spreadRadius: 10,
+            blurRadius: 10,
+            offset: Offset(0, 3), // changes position of shadow
           ),
+        ],
+      ),
+      margin: EdgeInsets.all(4.0),
+      child: OutlineButton(
+        borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        onPressed: () async {
+          // multiplier += 1;
+          // print('Inicio $day');
+          realizouMeta();
+          // print('Após $day');
+        },
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: ListTile(
+          title: Text(
+            metaUsuario.meta.nome,
+            style: TextStyle(
+                color: Colors.lightGreen[900],
+                fontSize: 14.0,
+                letterSpacing: 1.0),
+          ),
+          subtitle: Text(
+            '${metaUsuario.qntAtual} dia(s) - ${metaUsuario.meta.exp} exp',
+            //'${metaUsuario.qntAtual} dia (recorde: ${metaUsuario.qntTotal} dias) - ${metaUsuario.meta.exp} exp',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          //leading: Icon(Icons.delete),
+          trailing: Icon(Icons.check),
         ),
       ),
     );
+    // );
   }
 }

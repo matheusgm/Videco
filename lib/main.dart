@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<MyUser>(context);
+    var user = Provider.of<MyUser>(context);
     print("Usuario: " + user.toString());
-
+    //user = MyUser("aaa","email@gmail.com");
     if (user == null) {
       return Login();
     } else {
